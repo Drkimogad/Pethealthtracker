@@ -87,3 +87,9 @@ document.addEventListener("DOMContentLoaded", function() {
         logoutButton.classList.add("hidden");
     }
 });
+if (users[username] === password) {
+    alert(`Welcome, ${username}!`);
+    localStorage.setItem("isLoggedIn", true); // Save login state
+    console.log("Login successful. Redirecting to dashboard.");  // Debugging
+    window.location.href = window.location.href;  // Reload page to reflect login state
+}
