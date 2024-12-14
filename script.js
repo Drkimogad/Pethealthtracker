@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function() {
-    console.log("localStorage:", localStorage);  // Add this line to inspect localStorage
+    console.log("sessionStorage:", SessionStorage);  // Add this line to inspect localStorage
     const signupForm = document.getElementById("signupForm");
     const loginForm = document.getElementById("loginForm");
     const logoutButton = document.getElementById("logoutButton");
