@@ -5,7 +5,18 @@ document.addEventListener("DOMContentLoaded", function() {
     const mainContent = document.getElementById("mainContent");
 
     // Temporary in-memory storage for user credentials
-    const users = {};
+    const users = {
+        user: "password", // Predefined user for testing
+    };
+
+    // Check login status on page load
+    if (localStorage.getItem("isLoggedIn")) {
+        console.log("User is already logged in."); // Debugging
+        showDashboard();
+    } else {
+        console.log("User is not logged in."); // Debugging
+        showLoginForm();
+    }
 
     // Handle signup
     signupForm.addEventListener("submit", (e) => {
@@ -25,9 +36,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Handle login
     loginForm.addEventListener("submit", (e) => {
-        e.preventDefault(); // Prevent form from submitting normally
+        e.preventDefault(); // Prevent default form submission
         const username = document.getElementById("loginUsername").value;
         const password = document.getElementById("loginPassword").value;
+
+        // Debugging statements
+        console.log("Login attempt with username:", username);
+        console.log("Password entered:", password);
 
         // Check if the fields are not empty
         if (!username || !password) {
@@ -35,26 +50,43 @@ document.addEventListener("DOMContentLoaded", function() {
             return; // Exit early if fields are empty
         }
 
-        // Simulate login validation (replace with actual logic if needed)
+        // Simulate login validation
         if (users[username] === password) {
             alert(`Welcome, ${username}!`);
-            mainContent.innerHTML = `<h2 class="text-xl font-bold mb-4">Welcome, ${username}!</h2>
-                <p>Here is your personalized dashboard.</p>`;
-            loginForm.classList.add("hidden");
-            logoutButton.classList.remove("hidden");
+            localStorage.setItem("isLoggedIn", true); // Save login state
+            console.log("Login successful. Redirecting to dashboard."); // Debugging
+            showDashboard();
         } else {
             alert("Invalid login credentials. Please try again.");
+            console.log("Login failed."); // Debugging
         }
     });
 
     // Handle logout
     logoutButton.addEventListener("click", () => {
         alert("You have logged out.");
+        localStorage.removeItem("isLoggedIn");
+        console.log("User logged out. Redirecting to login."); // Debugging
+        showLoginForm();
+    });
+
+    // Show the dashboard
+    function showDashboard() {
+        mainContent.innerHTML = `<h2 class="text-xl font-bold mb-4">Welcome to your dashboard!</h2>
+                <p>This is your personalized space.</p>`;
+        loginForm.classList.add("hidden");
+        signupForm.classList.add("hidden");
+        logoutButton.classList.remove("hidden");
+    }
+
+    // Show the login form
+    function showLoginForm() {
         mainContent.innerHTML = `<section class="mb-8" id="dashboard">
             <h2 class="text-xl font-bold mb-4">Dashboard</h2>
             <p>Please login or sign up to view your personalized dashboard.</p>
         </section>`;
-        logoutButton.classList.add("hidden");
         loginForm.classList.remove("hidden");
-    });
+        signupForm.classList.add("hidden");
+        logoutButton.classList.add("hidden");
+    }
 });
