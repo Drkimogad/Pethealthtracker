@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function() {
+    console.log("localStorage:", localStorage);  // Add this line to inspect localStorage
     const signupForm = document.getElementById("signupForm");
     const loginForm = document.getElementById("loginForm");
     const logoutButton = document.getElementById("logoutButton");
@@ -11,10 +12,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Check login status on page load
     if (localStorage.getItem("isLoggedIn")) {
-        console.log("User is already logged in."); // Debugging
+        console.log("User is already logged in.");  // Debugging
         showDashboard();
     } else {
-        console.log("User is not logged in."); // Debugging
+        console.log("User is not logged in.");  // Debugging
         showLoginForm();
     }
 
@@ -40,10 +41,6 @@ document.addEventListener("DOMContentLoaded", function() {
         const username = document.getElementById("loginUsername").value;
         const password = document.getElementById("loginPassword").value;
 
-        // Debugging statements
-        console.log("Login attempt with username:", username);
-        console.log("Password entered:", password);
-
         // Check if the fields are not empty
         if (!username || !password) {
             alert("Please fill in both fields.");
@@ -54,11 +51,11 @@ document.addEventListener("DOMContentLoaded", function() {
         if (users[username] === password) {
             alert(`Welcome, ${username}!`);
             localStorage.setItem("isLoggedIn", true); // Save login state
-            console.log("Login successful. Redirecting to dashboard."); // Debugging
+            console.log("Login successful. Redirecting to dashboard.");  // Debugging
             showDashboard();
         } else {
             alert("Invalid login credentials. Please try again.");
-            console.log("Login failed."); // Debugging
+            console.log("Login failed.");  // Debugging
         }
     });
 
@@ -66,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function() {
     logoutButton.addEventListener("click", () => {
         alert("You have logged out.");
         localStorage.removeItem("isLoggedIn");
-        console.log("User logged out. Redirecting to login."); // Debugging
+        console.log("User logged out. Redirecting to login.");  // Debugging
         showLoginForm();
     });
 
