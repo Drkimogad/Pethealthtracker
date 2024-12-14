@@ -6,21 +6,20 @@ document.addEventListener("DOMContentLoaded", function() {
         showLoginForm();
     }
 
-    // Login form submit handler
-    const loginForm = document.getElementById("loginForm");
-    loginForm.addEventListener("submit", function(e) {
-        e.preventDefault();
-        const username = document.getElementById("loginUsername").value;
-        const password = document.getElementById("loginPassword").value;
-        
-        // Simulate login validation (replace with actual logic if needed)
-        if (username === "user" && password === "password") {
-            localStorage.setItem("isLoggedIn", true);
-            showDashboard();
-        } else {
-            alert("Invalid credentials. Please try again.");
-        }
-    });
+  loginForm.addEventListener("submit", (e) => {
+    e.preventDefault(); // Prevent form submission
+    const username = document.getElementById("loginUsername").value;
+    const password = document.getElementById("loginPassword").value;
+
+    // Simulated credentials check
+    if (username === "user" && password === "password") {
+        localStorage.setItem("isLoggedIn", true); // Save login state
+        window.location.href = "dashboard.html"; // Redirect to dashboard
+    } else {
+        alert("Invalid login credentials. Please try again.");
+    }
+});
+
 
     // Logout button functionality
     const logoutButton = document.getElementById("logoutButton");
