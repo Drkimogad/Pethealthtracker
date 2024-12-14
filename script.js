@@ -63,7 +63,8 @@ document.addEventListener("DOMContentLoaded", function () {
             alert(`Welcome, ${username}!`);
             localStorage.setItem("isLoggedIn", true); // Save login state in localStorage
             console.log("Login successful. Redirecting to dashboard."); // Debugging
-            window.location.reload(); // Reload page to pick up localStorage changes
+            // Redirect to dashboard (or reload the page)
+            window.location.href = "#dashboard"; // Navigate to the dashboard section
         } else {
             alert("Invalid login credentials. Please try again.");
             console.log("Login failed."); // Debugging
