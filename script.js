@@ -7,10 +7,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const logoutButton = document.getElementById("logoutButton");
     const mainContent = document.getElementById("mainContent");
 
-    // Simulated user credentials (for demo purposes)
-    const users = {
-        user: "password", // predefined user
-    };
+    // Simulated user credentials storage
+    let users = JSON.parse(localStorage.getItem("users")) || {};
 
     // Check login status on page load (ensure localStorage is being checked correctly)
     if (localStorage.getItem("isLoggedIn")) {
@@ -27,11 +25,16 @@ document.addEventListener("DOMContentLoaded", function () {
         const username = document.getElementById("signupUsername").value;
         const password = document.getElementById("signupPassword").value;
 
-        // Validate and store the new user
+        // Debugging: Log the username and password for troubleshooting
+        console.log("Signup attempt with username:", username);
+        console.log("Signup password entered:", password);
+
         if (users[username]) {
             alert("Username already exists. Please try another.");
         } else {
+            // Save new user to localStorage
             users[username] = password;
+            localStorage.setItem("users", JSON.stringify(users));
             alert("Signup successful! Please log in.");
             signupForm.classList.add("hidden");
             loginForm.classList.remove("hidden");
@@ -55,12 +58,12 @@ document.addEventListener("DOMContentLoaded", function () {
             return; // Exit early if fields are empty
         }
 
-        // Simulate login validation
+        // Check user credentials from localStorage
         if (users[username] === password) {
             alert(`Welcome, ${username}!`);
             localStorage.setItem("isLoggedIn", true); // Save login state in localStorage
             console.log("Login successful. Redirecting to dashboard."); // Debugging
-            window.location.reload();  // Reload page to pick up localStorage changes
+            window.location.reload(); // Reload page to pick up localStorage changes
         } else {
             alert("Invalid login credentials. Please try again.");
             console.log("Login failed."); // Debugging
