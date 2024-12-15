@@ -2,6 +2,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const signupForm = document.getElementById("signupForm");
     const loginForm = document.getElementById("loginForm");
     const logoutButton = document.getElementById("logoutButton");
+    const showSignupButton = document.getElementById("showSignup");
+    const showLoginButton = document.getElementById("showLogin");
     const mainContent = document.getElementById("mainContent");
 
     let users = JSON.parse(localStorage.getItem("users")) || {};
@@ -47,6 +49,22 @@ document.addEventListener("DOMContentLoaded", function () {
         localStorage.removeItem("isLoggedIn");
         localStorage.removeItem("loggedInUser");
         showLoginForm();
+    });
+
+    // Toggle to Signup Form
+    showSignupButton.addEventListener("click", function () {
+        signupForm.classList.remove("hidden");
+        loginForm.classList.add("hidden");
+        showSignupButton.classList.add("hidden");
+        showLoginButton.classList.remove("hidden");
+    });
+
+    // Toggle to Login Form
+    showLoginButton.addEventListener("click", function () {
+        signupForm.classList.add("hidden");
+        loginForm.classList.remove("hidden");
+        showSignupButton.classList.remove("hidden");
+        showLoginButton.classList.add("hidden");
     });
 
     function showDashboard(username) {
