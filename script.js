@@ -70,44 +70,31 @@ document.addEventListener("DOMContentLoaded", function () {
     // Show personalized dashboard with user's name and picture
     function showDashboard(username) {
         mainContent.innerHTML = `
-            <h2 class="text-xl font-bold mb-4">Welcome, ${username}!</h2>
             <div class="flex items-center justify-center mb-4">
                 <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="User Profile Picture" class="rounded-full w-20 h-20 mr-4">
                 <h3 class="text-lg font-semibold">${username}'s Dashboard</h3>
             </div>
-            <p>This is your personalized space. Select a section below:</p>
-            <div class="flex justify-around mt-4">
-                <button class="bg-blue-600 text-white p-4 rounded" onclick="showProfiles()">Profiles</button>
-                <button class="bg-blue-600 text-white p-4 rounded" onclick="showReminders()">Reminders</button>
-                <button class="bg-blue-600 text-white p-4 rounded" onclick="showHealthTips()">Health Tips</button>
-                <button class="bg-blue-600 text-white p-4 rounded" onclick="showCommunity()">Community</button>
-                <button class="bg-blue-600 text-white p-4 rounded" onclick="showSettings()">Settings</button>
+            <h2 class="text-xl font-bold mb-4">Welcome, ${username}!</h2>
+            <div class="bg-gray-300 p-4 rounded-lg">
+                <h3 class="font-semibold mb-2">Write About Your Pets:</h3>
+                <textarea id="userMessage" class="w-full p-2 border rounded mb-2" rows="4" placeholder="Share your thoughts or love message about your pets..."></textarea>
+                <button id="feedbackButton" class="bg-blue-600 text-white p-2 rounded">Send Feedback</button>
             </div>
         `;
         loginForm.classList.add("hidden");
         signupForm.classList.add("hidden");
         logoutButton.classList.remove("hidden");
-    }
 
-    // Functions to display each section's content
-    function showProfiles() {
-        mainContent.innerHTML = `<h2>Profiles</h2><p>Manage your pet profiles here.</p>`;
-    }
-
-    function showReminders() {
-        mainContent.innerHTML = `<h2>Reminders</h2><p>View your preventive care reminders.</p>`;
-    }
-
-    function showHealthTips() {
-        mainContent.innerHTML = `<h2>Health Tips</h2><p>Learn how to take care of your pets.</p>`;
-    }
-
-    function showCommunity() {
-        mainContent.innerHTML = `<h2>Community</h2><p>Join the pet owners' community.</p>`;
-    }
-
-    function showSettings() {
-        mainContent.innerHTML = `<h2>Settings</h2><p>Adjust your preferences.</p>`;
+        const feedbackButton = document.getElementById("feedbackButton");
+        feedbackButton.addEventListener("click", function () {
+            const userMessage = document.getElementById("userMessage").value;
+            if (userMessage.trim() === "") {
+                alert("Please write something before sending feedback.");
+            } else {
+                alert("Thank you for your feedback!");
+                document.getElementById("userMessage").value = ""; // Clear the textarea after feedback
+            }
+        });
     }
 
     function showLoginForm() {
