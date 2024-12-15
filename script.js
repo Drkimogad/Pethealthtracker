@@ -9,16 +9,14 @@ document.addEventListener("DOMContentLoaded", function () {
     let users = JSON.parse(localStorage.getItem("users")) || {};
     let profilePicture = localStorage.getItem("profilePicture") || "https://randomuser.me/api/portraits/men/45.jpg";
 
-    // Admin Dashboard: View feedback
-    const adminDashboard = document.getElementById("adminDashboard");
-
+    // Check if user is logged in
     if (localStorage.getItem("isLoggedIn") === "true" && localStorage.getItem("loggedInUser")) {
-        const username = localStorage.getItem("loggedInUser");
-        showDashboard(username);
+        showDashboard(localStorage.getItem("loggedInUser"));
     } else {
         showLoginForm();
     }
 
+    // Sign up functionality
     signupForm.addEventListener("submit", function (e) {
         e.preventDefault();
         const username = document.getElementById("signupUsername").value.trim().toLowerCase();
@@ -35,6 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
+    // Login functionality
     loginForm.addEventListener("submit", function (e) {
         e.preventDefault();
         const username = document.getElementById("loginUsername").value.trim().toLowerCase();
@@ -49,11 +48,28 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
+    // Logout functionality
     logoutButton.addEventListener("click", function () {
         alert("You have logged out.");
         localStorage.removeItem("isLoggedIn");
         localStorage.removeItem("loggedInUser");
         showLoginForm();
+    });
+
+    // Toggle to Signup Form
+    showSignupButton.addEventListener("click", function () {
+        signupForm.classList.remove("hidden");
+        loginForm.classList.add("hidden");
+        showSignupButton.classList.add("hidden");
+        showLoginButton.classList.remove("hidden");
+    });
+
+    // Toggle to Login Form
+    showLoginButton.addEventListener("click", function () {
+        signupForm.classList.add("hidden");
+        loginForm.classList.remove("hidden");
+        showSignupButton.classList.remove("hidden");
+        showLoginButton.classList.add("hidden");
     });
 
     // Show personalized dashboard with user's name and picture
@@ -121,21 +137,5 @@ document.addEventListener("DOMContentLoaded", function () {
         loginForm.classList.remove("hidden");
         signupForm.classList.add("hidden");
         logoutButton.classList.add("hidden");
-    }
-
-    // Admin Dashboard to view feedback
-    function showAdminDashboard() {
-        const feedbacks = JSON.parse(localStorage.getItem("feedbacks")) || [];
-        adminDashboard.innerHTML = `
-            <h2>Admin Dashboard</h2>
-            <h3>Feedback Submissions:</h3>
-            ${feedbacks.length > 0 ? feedbacks.map(feedback => `
-                <div class="bg-gray-200 p-4 rounded mt-4">
-                    <p><strong>User:</strong> ${feedback.user}</p>
-                    <p><strong>Message:</strong> ${feedback.message}</p>
-                    <p><strong>Submitted at:</strong> ${new Date(feedback.timestamp).toLocaleString()}</p>
-                </div>
-            `).join('') : '<p>No feedback yet.</p>'}
-        `;
     }
 });
