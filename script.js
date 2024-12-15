@@ -4,35 +4,27 @@ document.addEventListener("DOMContentLoaded", function () {
     const logoutButton = document.getElementById("logoutButton");
     const mainContent = document.getElementById("mainContent");
 
-    // Simulated user credentials storage
+    // Simulated user credentials storage (stores in localStorage)
     let users = JSON.parse(localStorage.getItem("users")) || {};
 
-    // Debugging: Check localStorage when the page loads
-    console.log("Initial localStorage:", localStorage);
-
-    // Check login status on page load (ensure localStorage is being checked correctly)
+    // Check login status on page load
     if (localStorage.getItem("isLoggedIn") === "true") {
-        console.log("User is already logged in."); // Debugging
-        showDashboard();
+        showDashboard();  // Show dashboard if logged in
     } else {
-        console.log("User is not logged in."); // Debugging
-        showLoginForm();
+        showLoginForm();  // Show login form if not logged in
     }
 
-    // Handle signup
+    // Signup handler
     signupForm.addEventListener("submit", function (e) {
-        e.preventDefault(); // Prevent form from submitting normally
+        e.preventDefault();  // Prevent form from submitting normally
         const username = document.getElementById("signupUsername").value.trim().toLowerCase();
         const password = document.getElementById("signupPassword").value;
 
-        // Debugging: Log the username and password for troubleshooting
-        console.log("Signup attempt with username:", username);
-        console.log("Signup password entered:", password);
-
+        // Check if user already exists
         if (users[username]) {
             alert("Username already exists. Please try another.");
         } else {
-            // Save new user to localStorage
+            // Add new user to localStorage
             users[username] = password;
             localStorage.setItem("users", JSON.stringify(users));
             alert("Signup successful! Please log in.");
@@ -41,67 +33,53 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Handle login
+    // Login handler
     loginForm.addEventListener("submit", function (e) {
-        e.preventDefault(); // Prevent form from submitting normally
+        e.preventDefault();  // Prevent form from submitting normally
         const username = document.getElementById("loginUsername").value.trim().toLowerCase();
         const password = document.getElementById("loginPassword").value;
-
-        // Debugging: Log the username and password for troubleshooting
-        console.log("Login attempt with username:", username);
-        console.log("Password entered:", password);
 
         // Check if the fields are not empty
         if (!username || !password) {
             alert("Please fill in both fields.");
-            console.log("Empty fields detected."); // Debugging
-            return; // Exit early if fields are empty
+            return;
         }
 
-        // Check user credentials from localStorage
+        // Check login credentials
         if (users[username] === password) {
-            alert(`Welcome, ${username}!`);
-            localStorage.setItem("isLoggedIn", "true"); // Save login state in localStorage
-            console.log("Login successful. Redirecting to dashboard."); // Debugging
+            localStorage.setItem("isLoggedIn", "true");  // Save login state
+            alert("Login successful!");
             showDashboard();
         } else {
             alert("Invalid login credentials. Please try again.");
-            console.log("Login failed."); // Debugging
         }
     });
 
-    // Handle logout
+    // Logout handler
     logoutButton.addEventListener("click", function () {
-        alert("You have logged out.");
-        localStorage.removeItem("isLoggedIn"); // Clear login state
-        console.log("User logged out. Redirecting to login."); // Debugging
-        showLoginForm(); // Show login form after logout
+        localStorage.removeItem("isLoggedIn");  // Clear login state
+        showLoginForm();
     });
 
-    // Show the dashboard content after login
+    // Show the dashboard
     function showDashboard() {
-        console.log("Showing dashboard..."); // Debugging
-        mainContent.innerHTML = `<h2 class="text-xl font-bold mb-4">Welcome to your dashboard!</h2>
-            <p>This is your personalized space.</p>`;
+        mainContent.innerHTML = `
+            <h2 class="text-xl font-bold mb-4">Welcome to your dashboard!</h2>
+            <p>This is your personalized space.</p>
+        `;
         loginForm.classList.add("hidden");
         signupForm.classList.add("hidden");
-        logoutButton.classList.remove("hidden"); // Show logout button
+        logoutButton.classList.remove("hidden");
     }
 
     // Show the login form
     function showLoginForm() {
-        console.log("Showing login form..."); // Debugging
-        mainContent.innerHTML = `<section class="mb-8" id="dashboard">
-            <h2 class="text-xl font-bold mb-4">Dashboard</h2>
-            <p>Please login or sign up to view your personalized dashboard.</p>
-        </section>`;
+        mainContent.innerHTML = `
+            <h2 class="text-xl font-bold mb-4">Please log in or sign up</h2>
+            <p>Enter your username and password to access your dashboard.</p>
+        `;
         loginForm.classList.remove("hidden");
         signupForm.classList.add("hidden");
-        logoutButton.classList.add("hidden"); // Hide logout button when logged out
+        logoutButton.classList.add("hidden");
     }
-
-    // Debugging: Check localStorage every time the page loads
-    window.addEventListener("load", function () {
-        console.log("localStorage after load:", localStorage);
-    });
 });
