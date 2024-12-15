@@ -1,7 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Debugging: Check initial localStorage value
-    console.log("Initial localStorage:", localStorage);
-
     const signupForm = document.getElementById("signupForm");
     const loginForm = document.getElementById("loginForm");
     const logoutButton = document.getElementById("logoutButton");
@@ -10,8 +7,11 @@ document.addEventListener("DOMContentLoaded", function () {
     // Simulated user credentials storage
     let users = JSON.parse(localStorage.getItem("users")) || {};
 
+    // Debugging: Check localStorage when the page loads
+    console.log("Initial localStorage:", localStorage);
+
     // Check login status on page load (ensure localStorage is being checked correctly)
-    if (localStorage.getItem("isLoggedIn")) {
+    if (localStorage.getItem("isLoggedIn") === "true") {
         console.log("User is already logged in."); // Debugging
         showDashboard();
     } else {
@@ -58,10 +58,10 @@ document.addEventListener("DOMContentLoaded", function () {
             return; // Exit early if fields are empty
         }
 
-        // Check user credentials from localStorage (case-insensitive)
+        // Check user credentials from localStorage
         if (users[username] === password) {
             alert(`Welcome, ${username}!`);
-            localStorage.setItem("isLoggedIn", true); // Save login state in localStorage
+            localStorage.setItem("isLoggedIn", "true"); // Save login state in localStorage
             console.log("Login successful. Redirecting to dashboard."); // Debugging
             showDashboard();
         } else {
@@ -80,6 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Show the dashboard content after login
     function showDashboard() {
+        console.log("Showing dashboard..."); // Debugging
         mainContent.innerHTML = `<h2 class="text-xl font-bold mb-4">Welcome to your dashboard!</h2>
             <p>This is your personalized space.</p>`;
         loginForm.classList.add("hidden");
@@ -89,6 +90,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Show the login form
     function showLoginForm() {
+        console.log("Showing login form..."); // Debugging
         mainContent.innerHTML = `<section class="mb-8" id="dashboard">
             <h2 class="text-xl font-bold mb-4">Dashboard</h2>
             <p>Please login or sign up to view your personalized dashboard.</p>
@@ -98,7 +100,7 @@ document.addEventListener("DOMContentLoaded", function () {
         logoutButton.classList.add("hidden"); // Hide logout button when logged out
     }
 
-    // Check localStorage every time the page loads
+    // Debugging: Check localStorage every time the page loads
     window.addEventListener("load", function () {
         console.log("localStorage after load:", localStorage);
     });
