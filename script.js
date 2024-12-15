@@ -6,28 +6,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let users = JSON.parse(localStorage.getItem("users")) || {};
 
-    console.log("Initial localStorage:", localStorage);
-
-    // Check if user is logged in
-    if (localStorage.getItem("isLoggedIn") === "true") {
-        showDashboard(); // Show dashboard if logged in
+    if (localStorage.getItem("isLoggedIn") === "true" && localStorage.getItem("loggedInUser")) {
+        showDashboard(localStorage.getItem("loggedInUser"));
     } else {
-        showLoginForm(); // Show login form if not logged in
+        showLoginForm();
     }
 
-    // Signup handler
     signupForm.addEventListener("submit", function (e) {
         e.preventDefault();
         const username = document.getElementById("signupUsername").value.trim().toLowerCase();
         const password = document.getElementById("signupPassword").value;
 
-        console.log("Signup attempt with username:", username);
-
-        // If user exists, show error
         if (users[username]) {
             alert("Username already exists. Please try another.");
         } else {
-            // Add new user to localStorage
             users[username] = password;
             localStorage.setItem("users", JSON.stringify(users));
             alert("Signup successful! Please log in.");
@@ -36,38 +28,30 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Login handler
-   loginForm.addEventListener("submit", function (e) {
-    e.preventDefault();
-    const username = document.getElementById("loginUsername").value.trim().toLowerCase();
-    const password = document.getElementById("loginPassword").value;
+    loginForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const username = document.getElementById("loginUsername").value.trim().toLowerCase();
+        const password = document.getElementById("loginPassword").value;
 
-    console.log("Login attempt with username:", username);
-    console.log("Password entered:", password);
-    console.log("Users stored in localStorage:", users);
+        if (users[username] === password) {
+            localStorage.setItem("isLoggedIn", "true");
+            localStorage.setItem("loggedInUser", username);
+            showDashboard(username);
+        } else {
+            alert("Invalid login credentials.");
+        }
+    });
 
-    if (users[username] === password) {
-        localStorage.setItem("isLoggedIn", "true");
-        console.log("Login successful, updating isLoggedIn to true.");
-        showDashboard();
-    } else {
-        alert("Invalid login credentials.");
-        console.error("Login failed for username:", username);
-    }
-});
-
-    // Logout handler
     logoutButton.addEventListener("click", function () {
         alert("You have logged out.");
-        localStorage.removeItem("isLoggedIn"); // Clear login state
+        localStorage.removeItem("isLoggedIn");
+        localStorage.removeItem("loggedInUser");
         showLoginForm();
     });
 
-    // Show the dashboard
-    function showDashboard() {
-        console.log("Showing dashboard...");
+    function showDashboard(username) {
         mainContent.innerHTML = `
-            <h2 class="text-xl font-bold mb-4">Welcome to your dashboard!</h2>
+            <h2 class="text-xl font-bold mb-4">Welcome, ${username}!</h2>
             <p>This is your personalized space.</p>
         `;
         loginForm.classList.add("hidden");
@@ -75,9 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
         logoutButton.classList.remove("hidden");
     }
 
-    // Show the login form
     function showLoginForm() {
-        console.log("Showing login form...");
         mainContent.innerHTML = `
             <h2 class="text-xl font-bold mb-4">Please log in or sign up</h2>
             <p>Enter your username and password to access your dashboard.</p>
@@ -86,9 +68,4 @@ document.addEventListener("DOMContentLoaded", function () {
         signupForm.classList.add("hidden");
         logoutButton.classList.add("hidden");
     }
-
-    // Debugging: Check localStorage every time the page loads
-    window.addEventListener("load", function () {
-        console.log("localStorage after load:", localStorage);
-    });
 });
