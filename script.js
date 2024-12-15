@@ -67,14 +67,45 @@ document.addEventListener("DOMContentLoaded", function () {
         showLoginButton.classList.add("hidden");
     });
 
+    // Display the dashboard and section links
     function showDashboard(username) {
         mainContent.innerHTML = `
             <h2 class="text-xl font-bold mb-4">Welcome, ${username}!</h2>
-            <p>This is your personalized space.</p>
+            <div id="dashboardContent">
+                <p>This is your personalized space. Select a section below:</p>
+                <ul>
+                    <li><a href="#profiles" class="text-green-600" onclick="showProfiles()">Profiles</a></li>
+                    <li><a href="#reminders" class="text-green-600" onclick="showReminders()">Reminders</a></li>
+                    <li><a href="#health-tips" class="text-green-600" onclick="showHealthTips()">Health Tips</a></li>
+                    <li><a href="#community" class="text-green-600" onclick="showCommunity()">Community</a></li>
+                    <li><a href="#settings" class="text-green-600" onclick="showSettings()">Settings</a></li>
+                </ul>
+            </div>
         `;
         loginForm.classList.add("hidden");
         signupForm.classList.add("hidden");
         logoutButton.classList.remove("hidden");
+    }
+
+    // Placeholder functions for each section (Profiles, Reminders, etc.)
+    function showProfiles() {
+        mainContent.innerHTML = `<h2>Profiles</h2><p>Manage your pet profiles here.</p>`;
+    }
+
+    function showReminders() {
+        mainContent.innerHTML = `<h2>Reminders</h2><p>View your preventive care reminders.</p>`;
+    }
+
+    function showHealthTips() {
+        mainContent.innerHTML = `<h2>Health Tips</h2><p>Learn how to take care of your pets.</p>`;
+    }
+
+    function showCommunity() {
+        mainContent.innerHTML = `<h2>Community</h2><p>Join the pet owners' community.</p>`;
+    }
+
+    function showSettings() {
+        mainContent.innerHTML = `<h2>Settings</h2><p>Adjust your preferences.</p>`;
     }
 
     function showLoginForm() {
