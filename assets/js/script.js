@@ -37,28 +37,24 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // Login handler
-    loginForm.addEventListener("submit", function (e) {
-        e.preventDefault();
-        const username = document.getElementById("loginUsername").value.trim().toLowerCase();
-        const password = document.getElementById("loginPassword").value;
+   loginForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    const username = document.getElementById("loginUsername").value.trim().toLowerCase();
+    const password = document.getElementById("loginPassword").value;
 
-        console.log("Login attempt with username:", username);
+    console.log("Login attempt with username:", username);
+    console.log("Password entered:", password);
+    console.log("Users stored in localStorage:", users);
 
-        // Check if the fields are not empty
-        if (!username || !password) {
-            alert("Please fill in both fields.");
-            return;
-        }
-
-        // Validate login
-        if (users[username] === password) {
-            alert("Login successful!");
-            localStorage.setItem("isLoggedIn", "true");
-            showDashboard();
-        } else {
-            alert("Invalid login credentials.");
-        }
-    });
+    if (users[username] === password) {
+        localStorage.setItem("isLoggedIn", "true");
+        console.log("Login successful, updating isLoggedIn to true.");
+        showDashboard();
+    } else {
+        alert("Invalid login credentials.");
+        console.error("Login failed for username:", username);
+    }
+});
 
     // Logout handler
     logoutButton.addEventListener("click", function () {
