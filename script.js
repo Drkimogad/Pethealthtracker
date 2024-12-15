@@ -76,20 +76,20 @@ document.addEventListener("DOMContentLoaded", function () {
                 <h3 class="text-lg font-semibold">${username}'s Dashboard</h3>
             </div>
             <p>This is your personalized space. Select a section below:</p>
-            <ul>
-                <li><a href="#profiles" class="text-green-600" onclick="showProfiles()">Profiles</a></li>
-                <li><a href="#reminders" class="text-green-600" onclick="showReminders()">Reminders</a></li>
-                <li><a href="#health-tips" class="text-green-600" onclick="showHealthTips()">Health Tips</a></li>
-                <li><a href="#community" class="text-green-600" onclick="showCommunity()">Community</a></li>
-                <li><a href="#settings" class="text-green-600" onclick="showSettings()">Settings</a></li>
-            </ul>
+            <div class="flex justify-around mt-4">
+                <button class="bg-blue-600 text-white p-4 rounded" onclick="showProfiles()">Profiles</button>
+                <button class="bg-blue-600 text-white p-4 rounded" onclick="showReminders()">Reminders</button>
+                <button class="bg-blue-600 text-white p-4 rounded" onclick="showHealthTips()">Health Tips</button>
+                <button class="bg-blue-600 text-white p-4 rounded" onclick="showCommunity()">Community</button>
+                <button class="bg-blue-600 text-white p-4 rounded" onclick="showSettings()">Settings</button>
+            </div>
         `;
         loginForm.classList.add("hidden");
         signupForm.classList.add("hidden");
         logoutButton.classList.remove("hidden");
     }
 
-    // Placeholder functions for each section (Profiles, Reminders, etc.)
+    // Functions to display each section's content
     function showProfiles() {
         mainContent.innerHTML = `<h2>Profiles</h2><p>Manage your pet profiles here.</p>`;
     }
@@ -120,4 +120,3 @@ document.addEventListener("DOMContentLoaded", function () {
         logoutButton.classList.add("hidden");
     }
 });
-
