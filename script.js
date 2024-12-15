@@ -67,20 +67,22 @@ document.addEventListener("DOMContentLoaded", function () {
         showLoginButton.classList.add("hidden");
     });
 
-    // Display the dashboard and section links
+    // Show personalized dashboard with user's name and picture
     function showDashboard(username) {
         mainContent.innerHTML = `
             <h2 class="text-xl font-bold mb-4">Welcome, ${username}!</h2>
-            <div id="dashboardContent">
-                <p>This is your personalized space. Select a section below:</p>
-                <ul>
-                    <li><a href="#profiles" class="text-green-600" onclick="showProfiles()">Profiles</a></li>
-                    <li><a href="#reminders" class="text-green-600" onclick="showReminders()">Reminders</a></li>
-                    <li><a href="#health-tips" class="text-green-600" onclick="showHealthTips()">Health Tips</a></li>
-                    <li><a href="#community" class="text-green-600" onclick="showCommunity()">Community</a></li>
-                    <li><a href="#settings" class="text-green-600" onclick="showSettings()">Settings</a></li>
-                </ul>
+            <div class="flex items-center justify-center mb-4">
+                <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="User Profile Picture" class="rounded-full w-20 h-20 mr-4">
+                <h3 class="text-lg font-semibold">${username}'s Dashboard</h3>
             </div>
+            <p>This is your personalized space. Select a section below:</p>
+            <ul>
+                <li><a href="#profiles" class="text-green-600" onclick="showProfiles()">Profiles</a></li>
+                <li><a href="#reminders" class="text-green-600" onclick="showReminders()">Reminders</a></li>
+                <li><a href="#health-tips" class="text-green-600" onclick="showHealthTips()">Health Tips</a></li>
+                <li><a href="#community" class="text-green-600" onclick="showCommunity()">Community</a></li>
+                <li><a href="#settings" class="text-green-600" onclick="showSettings()">Settings</a></li>
+            </ul>
         `;
         loginForm.classList.add("hidden");
         signupForm.classList.add("hidden");
@@ -118,3 +120,4 @@ document.addEventListener("DOMContentLoaded", function () {
         logoutButton.classList.add("hidden");
     }
 });
+
