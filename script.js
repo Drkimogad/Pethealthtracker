@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Handle signup
     signupForm.addEventListener("submit", function (e) {
         e.preventDefault(); // Prevent form from submitting normally
-        const username = document.getElementById("signupUsername").value;
+        const username = document.getElementById("signupUsername").value.trim().toLowerCase();
         const password = document.getElementById("signupPassword").value;
 
         // Debugging: Log the username and password for troubleshooting
@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Handle login
     loginForm.addEventListener("submit", function (e) {
         e.preventDefault(); // Prevent form from submitting normally
-        const username = document.getElementById("loginUsername").value;
+        const username = document.getElementById("loginUsername").value.trim().toLowerCase();
         const password = document.getElementById("loginPassword").value;
 
         // Debugging: Log the username and password for troubleshooting
@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
             return; // Exit early if fields are empty
         }
 
-        // Check user credentials from localStorage
+        // Check user credentials from localStorage (case-insensitive)
         if (users[username] === password) {
             alert(`Welcome, ${username}!`);
             localStorage.setItem("isLoggedIn", true); // Save login state in localStorage
