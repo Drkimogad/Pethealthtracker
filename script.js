@@ -1,9 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const showSignup = document.getElementById("showSignup");
-    const showLogin = document.getElementById("showLogin");
-    const signupForm = document.getElementById("signupForm");
-    const loginForm = document.getElementById("loginForm");
-    const logoutButton = document.getElementById("logoutButton");
+    // Get DOM elements
     const dashboardLink = document.getElementById("dashboardLink");
     const profilesLink = document.getElementById("profilesLink");
     const remindersLink = document.getElementById("remindersLink");
@@ -11,168 +7,150 @@ document.addEventListener("DOMContentLoaded", function () {
     const communityLink = document.getElementById("communityLink");
     const settingsLink = document.getElementById("settingsLink");
 
-    let currentUser = null;
-    let userPhoto = null;
-    let userDescription = null;
+    const mainContent = document.getElementById("mainContent");
 
-    // Check if user is logged in
-    const savedUsername = localStorage.getItem("username");
-    if (savedUsername) {
-        currentUser = savedUsername;
-        updateUIForUser();
+    // Function to display Dashboard content
+    function displayDashboard() {
+        mainContent.innerHTML = "<h2>Dashboard</h2><p>Welcome to your Pet Health Tracker dashboard! Here you can manage your pet's health and more.</p>";
     }
 
-    // Toggle between login and signup forms
-    showSignup.addEventListener("click", function () {
-        signupForm.classList.remove("hidden");
-        loginForm.classList.add("hidden");
-        showSignup.classList.add("hidden");
-        showLogin.classList.remove("hidden");
-    });
+    // Function to display Profiles content
+    function displayProfiles() {
+        const profiles = JSON.parse(localStorage.getItem("petProfiles")) || [];
+        let profileHTML = "<h3>Your Pet Profiles:</h3>";
 
-    showLogin.addEventListener("click", function () {
-        loginForm.classList.remove("hidden");
-        signupForm.classList.add("hidden");
-        showLogin.classList.add("hidden");
-        showSignup.classList.remove("hidden");
-    });
-
-    // Handle Sign Up
-    signupForm.addEventListener("submit", function (e) {
-        e.preventDefault();
-        const username = document.getElementById("signupUsername").value;
-        const password = document.getElementById("signupPassword").value;
-
-        // Save user info to localStorage
-        localStorage.setItem("username", username);
-        localStorage.setItem("password", password);
-
-        alert("Sign Up Successful! Please Login.");
-        showLogin.click();
-    });
-
-    // Handle Login
-    loginForm.addEventListener("submit", function (e) {
-        e.preventDefault();
-        const username = document.getElementById("loginUsername").value;
-        const password = document.getElementById("loginPassword").value;
-
-        const savedPassword = localStorage.getItem("password");
-
-        if (username === savedUsername && password === savedPassword) {
-            currentUser = username;
-            updateUIForUser();
+        if (profiles.length > 0) {
+            profiles.forEach((profile, index) => {
+                profileHTML += `
+                    <div class="profile-card">
+                        <h4>${profile.name}</h4>
+                        <p>${profile.species}</p>
+                        <button class="edit-profile" data-index="${index}">Edit Profile</button>
+                        <button class="delete-profile" data-index="${index}">Delete Profile</button>
+                    </div>
+                `;
+            });
         } else {
-            alert("Invalid username or password");
+            profileHTML += "<p>You have no profiles yet. Create one below.</p>";
         }
-    });
 
-    // Handle Logout
-    logoutButton.addEventListener("click", function () {
-        currentUser = null;
-        localStorage.removeItem("username");
-        localStorage.removeItem("password");
-        localStorage.removeItem("userPhoto");
-        localStorage.removeItem("userDescription");
-        resetUI();
-    });
-
-    function updateUIForUser() {
-        // Show user-specific info
-        document.getElementById("showSignup").classList.add("hidden");
-        document.getElementById("showLogin").classList.add("hidden");
-        document.getElementById("signupForm").classList.add("hidden");
-        document.getElementById("loginForm").classList.add("hidden");
-        logoutButton.classList.remove("hidden");
-
-        // Get saved photo and description from localStorage
-        userPhoto = localStorage.getItem("userPhoto") || 'https://via.placeholder.com/150';
-        userDescription = localStorage.getItem("userDescription") || '';
-
-        const userContent = `
-            <h2>Welcome back, ${currentUser}!</h2>
-            <div id="userInfo">
-                <img src="${userPhoto}" alt="User Photo" class="rounded-full" id="userPhoto">
-                <textarea id="userDescription" placeholder="Add your description..." class="p-2 mb-2 border rounded w-full">${userDescription}</textarea>
-                <input type="file" id="uploadPhoto" class="p-2 mb-2 border rounded">
-                <button id="removePhotoButton" class="bg-red-600 text-white p-2 rounded mt-2">Remove Photo</button>
-            </div>
+        profileHTML += `
+            <button id="addProfileButton" class="bg-blue-600 text-white p-2 rounded mt-4">Create New Profile</button>
         `;
-        document.getElementById("mainContent").innerHTML = userContent;
 
-        // Event listener for uploading a photo
-        document.getElementById("uploadPhoto").addEventListener("change", function (e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function (event) {
-                    userPhoto = event.target.result;
-                    localStorage.setItem("userPhoto", userPhoto); // Save to localStorage
-                    document.getElementById("userPhoto").src = userPhoto;
-                };
-                reader.readAsDataURL(file);
-            }
+        mainContent.innerHTML = profileHTML;
+
+        // Add event listeners to the profile buttons
+        document.querySelectorAll(".edit-profile").forEach(button => {
+            button.addEventListener("click", function () {
+                const index = this.getAttribute("data-index");
+                editProfile(index);
+            });
         });
 
-        // Event listener for removing the photo
-        document.getElementById("removePhotoButton").addEventListener("click", function () {
-            userPhoto = 'https://via.placeholder.com/150'; // Reset to default image
-            localStorage.setItem("userPhoto", userPhoto); // Save to localStorage
-            document.getElementById("userPhoto").src = userPhoto;
+        document.querySelectorAll(".delete-profile").forEach(button => {
+            button.addEventListener("click", function () {
+                const index = this.getAttribute("data-index");
+                deleteProfile(index);
+            });
         });
 
-        // Event listener for updating the user description
-        document.getElementById("userDescription").addEventListener("input", function (e) {
-            userDescription = e.target.value;
-            localStorage.setItem("userDescription", userDescription); // Save to localStorage
-        });
-        
-        // Ensure navigation links are clickable and load content dynamically
-        setupNavigation();
+        // Handle adding a new profile
+        document.getElementById("addProfileButton").addEventListener("click", createProfile);
     }
 
-    function resetUI() {
-        // Reset UI to initial state
-        document.getElementById("showSignup").classList.remove("hidden");
-        showSignup.click(); // Show signup form by default
+    // Function to create a new profile
+    function createProfile() {
+        const name = prompt("Enter your pet's name:");
+        const species = prompt("Enter your pet's species (e.g., Dog, Cat):");
+
+        if (name && species) {
+            const profiles = JSON.parse(localStorage.getItem("petProfiles")) || [];
+            profiles.push({ name, species });
+            localStorage.setItem("petProfiles", JSON.stringify(profiles));
+            displayProfiles(); // Refresh profiles
+        } else {
+            alert("Please provide both name and species.");
+        }
     }
 
-    // Dashboard, Profiles, Reminders, Health Tips, etc. Links
-    function setupNavigation() {
-        // Dashboard link
-        dashboardLink.addEventListener("click", function (e) {
-            e.preventDefault();
-            document.getElementById("mainContent").innerHTML = "<h2>Dashboard Content</h2><p>Welcome to your Pet Health Tracker dashboard.</p>";
-        });
+    // Function to edit an existing profile
+    function editProfile(index) {
+        const profiles = JSON.parse(localStorage.getItem("petProfiles"));
+        const profile = profiles[index];
 
-        // Profiles link
-        profilesLink.addEventListener("click", function (e) {
-            e.preventDefault();
-            document.getElementById("mainContent").innerHTML = "<h2>Profiles</h2><p>Manage your pet profiles here.</p>";
-        });
+        const newName = prompt("Edit pet's name:", profile.name);
+        const newSpecies = prompt("Edit pet's species:", profile.species);
 
-        // Reminders link
-        remindersLink.addEventListener("click", function (e) {
-            e.preventDefault();
-            document.getElementById("mainContent").innerHTML = "<h2>Reminders</h2><p>Set reminders for your pet's health tasks like vaccinations and vet visits.</p>";
-        });
-
-        // Health Tips link
-        healthTipsLink.addEventListener("click", function (e) {
-            e.preventDefault();
-            document.getElementById("mainContent").innerHTML = "<h2>Health Tips</h2><p>Stay informed with useful pet health tips and advice.</p>";
-        });
-
-        // Community link
-        communityLink.addEventListener("click", function (e) {
-            e.preventDefault();
-            document.getElementById("mainContent").innerHTML = "<h2>Community</h2><p>Join our community and share tips with fellow pet owners.</p>";
-        });
-
-        // Settings link
-        settingsLink.addEventListener("click", function (e) {
-            e.preventDefault();
-            document.getElementById("mainContent").innerHTML = "<h2>Settings</h2><p>Update your preferences and settings here.</p>";
-        });
+        if (newName && newSpecies) {
+            profile.name = newName;
+            profile.species = newSpecies;
+            localStorage.setItem("petProfiles", JSON.stringify(profiles));
+            displayProfiles(); // Refresh profiles
+        } else {
+            alert("Please provide both name and species.");
+        }
     }
+
+    // Function to delete a profile
+    function deleteProfile(index) {
+        const profiles = JSON.parse(localStorage.getItem("petProfiles"));
+        profiles.splice(index, 1);
+        localStorage.setItem("petProfiles", JSON.stringify(profiles));
+        displayProfiles(); // Refresh profiles
+    }
+
+    // Function to display Reminders content
+    function displayReminders() {
+        mainContent.innerHTML = "<h2>Reminders</h2><p>Set reminders for your pet's health tasks like vaccinations and vet visits.</p>";
+    }
+
+    // Function to display Health Tips content
+    function displayHealthTips() {
+        mainContent.innerHTML = "<h2>Health Tips</h2><p>Stay informed with useful pet health tips and advice.</p>";
+    }
+
+    // Function to display Community content
+    function displayCommunity() {
+        mainContent.innerHTML = "<h2>Community</h2><p>Join our community and share tips with fellow pet owners.</p>";
+    }
+
+    // Function to display Settings content
+    function displaySettings() {
+        mainContent.innerHTML = "<h2>Settings</h2><p>Update your preferences and settings here.</p>";
+    }
+
+    // Setup navigation links
+    dashboardLink.addEventListener("click", function (e) {
+        e.preventDefault();
+        displayDashboard();
+    });
+
+    profilesLink.addEventListener("click", function (e) {
+        e.preventDefault();
+        displayProfiles();
+    });
+
+    remindersLink.addEventListener("click", function (e) {
+        e.preventDefault();
+        displayReminders();
+    });
+
+    healthTipsLink.addEventListener("click", function (e) {
+        e.preventDefault();
+        displayHealthTips();
+    });
+
+    communityLink.addEventListener("click", function (e) {
+        e.preventDefault();
+        displayCommunity();
+    });
+
+    settingsLink.addEventListener("click", function (e) {
+        e.preventDefault();
+        displaySettings();
+    });
+
+    // Initial call to display the dashboard
+    displayDashboard();
 });
