@@ -117,4 +117,30 @@ document.addEventListener("DOMContentLoaded", function () {
     // Admin Section
     document.getElementById("adminLink").addEventListener("click", function () {
         mainContent.innerHTML = `
-            <div class="admin
+            <div class="admin-section">
+                <h2>Admin Dashboard</h2>
+                <button onclick="manageTracker()">Manage Tracker</button>
+                <button onclick="manageCommunity()">Manage Community</button>
+                <button onclick="manageHealthTips()">Manage Health Tips</button>
+                <button onclick="manageFeedback()">Manage Feedback</button>
+            </div>
+        `;
+    });
+
+    // Admin Section Functions
+    function manageTracker() {
+        alert("Managing Pet Health Tracker Data...");
+    }
+
+    function manageCommunity() {
+        alert("Managing Community Feedback...");
+    }
+
+    function manageHealthTips() {
+        alert("Managing Health Tips...");
+    }
+
+    function manageFeedback() {
+        alert("Managing User Feedback...");
+    }
+});
