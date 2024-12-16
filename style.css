@@ -5,37 +5,22 @@ body, h1, h2, p, a, input, button {
     box-sizing: border-box;
     font-family: 'Arial', sans-serif;
 }
+
 body {
     background-color: #f3f4f6;
     color: #333;
     line-height: 1.6;
 }
+
+/* Header Styling */
 .header {
     background-color: #4caf50;
     color: white;
     text-align: center;
     padding: 1rem 0;
 }
-.login-bar {
-    display: flex;
-    justify-content: flex-end;
-    padding: 0.5rem;
-    background-color: #333;
-}
-.login-bar input, .login-bar button {
-    margin-left: 0.5rem;
-    padding: 0.5rem;
-    border-radius: 5px;
-    border: none;
-}
-.login-bar input {
-    flex: 0 0 auto;
-}
-.login-bar button {
-    background-color: #4caf50;
-    color: white;
-    cursor: pointer;
-}
+
+/* Navbar Styling */
 .navbar {
     background-color: #222;
     color: white;
@@ -43,22 +28,68 @@ body {
     justify-content: space-around;
     padding: 0.5rem 0;
 }
+
 .navbar a {
     color: white;
     text-decoration: none;
     padding: 0.5rem 1rem;
 }
+
 .navbar a:hover {
     background-color: #4caf50;
     border-radius: 5px;
 }
+
+/* Content Section */
 .content-section {
     padding: 2rem;
     text-align: center;
 }
+
+/* Footer Styling */
 .footer {
     text-align: center;
     padding: 1rem;
     background-color: #4caf50;
     color: white;
+}
+
+/* Dashboard Styling */
+.dashboard {
+    text-align: center;
+}
+
+.dashboard .user-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dashboard .user-info img {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    margin-right: 15px;
+}
+
+.dashboard .feedback-section, .dashboard .profile-picture-section {
+    margin-top: 20px;
+}
+
+/* Admin Section Styling */
+.admin-section {
+    padding: 2rem;
+}
+
+.admin-section button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #4caf50;
+    color: white;
+    border-radius: 5px;
+    border: none;
+}
+
+.admin-section button:hover {
+    background-color: #45a049;
 }
