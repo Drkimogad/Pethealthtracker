@@ -5,6 +5,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const loginForm = document.getElementById("loginForm");
     const logoutButton = document.getElementById("logoutButton");
     const dashboardLink = document.getElementById("dashboardLink");
+    const profilesLink = document.getElementById("profilesLink");
+    const remindersLink = document.getElementById("remindersLink");
+    const healthTipsLink = document.getElementById("healthTipsLink");
+    const communityLink = document.getElementById("communityLink");
+    const settingsLink = document.getElementById("settingsLink");
 
     let currentUser = null;
     let userPhoto = null;
@@ -121,6 +126,9 @@ document.addEventListener("DOMContentLoaded", function () {
             userDescription = e.target.value;
             localStorage.setItem("userDescription", userDescription); // Save to localStorage
         });
+        
+        // Ensure navigation links are clickable and load content dynamically
+        setupNavigation();
     }
 
     function resetUI() {
@@ -129,10 +137,42 @@ document.addEventListener("DOMContentLoaded", function () {
         showSignup.click(); // Show signup form by default
     }
 
-    // Dashboard, Profiles, etc. Links
-    dashboardLink.addEventListener("click", function (e) {
-        e.preventDefault();
-        // Load the dashboard content dynamically
-        document.getElementById("mainContent").innerHTML = "<h2>Dashboard Content</h2><p>Welcome to your Pet Health Tracker dashboard.</p>";
-    });
+    // Dashboard, Profiles, Reminders, Health Tips, etc. Links
+    function setupNavigation() {
+        // Dashboard link
+        dashboardLink.addEventListener("click", function (e) {
+            e.preventDefault();
+            document.getElementById("mainContent").innerHTML = "<h2>Dashboard Content</h2><p>Welcome to your Pet Health Tracker dashboard.</p>";
+        });
+
+        // Profiles link
+        profilesLink.addEventListener("click", function (e) {
+            e.preventDefault();
+            document.getElementById("mainContent").innerHTML = "<h2>Profiles</h2><p>Manage your pet profiles here.</p>";
+        });
+
+        // Reminders link
+        remindersLink.addEventListener("click", function (e) {
+            e.preventDefault();
+            document.getElementById("mainContent").innerHTML = "<h2>Reminders</h2><p>Set reminders for your pet's health tasks like vaccinations and vet visits.</p>";
+        });
+
+        // Health Tips link
+        healthTipsLink.addEventListener("click", function (e) {
+            e.preventDefault();
+            document.getElementById("mainContent").innerHTML = "<h2>Health Tips</h2><p>Stay informed with useful pet health tips and advice.</p>";
+        });
+
+        // Community link
+        communityLink.addEventListener("click", function (e) {
+            e.preventDefault();
+            document.getElementById("mainContent").innerHTML = "<h2>Community</h2><p>Join our community and share tips with fellow pet owners.</p>";
+        });
+
+        // Settings link
+        settingsLink.addEventListener("click", function (e) {
+            e.preventDefault();
+            document.getElementById("mainContent").innerHTML = "<h2>Settings</h2><p>Update your preferences and settings here.</p>";
+        });
+    }
 });
