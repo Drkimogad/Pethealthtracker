@@ -1,51 +1,24 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Pet Health Tracker</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"/>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
-</head>
-<body class="bg-gray-100 font-roboto">
-    <header class="bg-green-600 text-white p-4 text-center">
-        <h1 class="text-2xl font-bold">Pet Health Tracker</h1>
-    </header>
-    <div class="user-section bg-gray-200 p-4 text-center">
-        <div id="toggleForms">
-            <button id="showSignup" class="bg-blue-600 text-white p-2 rounded">Sign Up</button>
-            <button id="showLogin" class="bg-gray-500 text-white p-2 rounded hidden">Login</button>
-        </div>
-        <form id="signupForm" class="hidden">
-            <h3 class="font-bold mb-2">Sign Up</h3>
-            <input type="text" id="signupUsername" placeholder="Username" class="p-2 mb-2 border rounded w-1/3" required>
-            <input type="password" id="signupPassword" placeholder="Password" class="p-2 mb-2 border rounded w-1/3" required>
-            <button type="submit" class="bg-green-600 text-white p-2 rounded">Sign Up</button>
-        </form>
-        <form id="loginForm">
-            <h3 class="font-bold mb-2">Login</h3>
-            <input type="text" id="loginUsername" placeholder="Username" class="p-2 mb-2 border rounded w-1/3" required>
-            <input type="password" id="loginPassword" placeholder="Password" class="p-2 mb-2 border rounded w-1/3" required>
-            <button type="submit" class="bg-green-600 text-white p-2 rounded">Login</button>
-        </form>
-        <button id="logoutButton" class="bg-red-600 text-white p-2 rounded hidden">Logout</button>
+<!-- Admin Section -->
+<div class="admin-section p-4">
+    <h2 class="text-xl font-bold mb-4">Admin Dashboard</h2>
+    <div id="trackerSection" class="mb-4">
+        <h3 class="font-semibold">Pet Health Tracker</h3>
+        <!-- Add functionality to view or manage pet health data -->
+        <button class="bg-blue-600 text-white p-2 rounded" onclick="manageTracker()">Manage Tracker</button>
     </div>
-    <nav class="bg-gray-800 text-white">
-        <div class="container mx-auto flex justify-around p-4">
-            <a class="hover:bg-gray-700 p-2 rounded" href="#dashboard" id="dashboardLink">Dashboard</a>
-            <a class="hover:bg-gray-700 p-2 rounded" href="#profiles" id="profilesLink">Profiles</a>
-            <a class="hover:bg-gray-700 p-2 rounded" href="#reminders" id="remindersLink">Reminders</a>
-            <a class="hover:bg-gray-700 p-2 rounded" href="#health-tips" id="healthTipsLink">Health Tips</a>
-            <a class="hover:bg-gray-700 p-2 rounded" href="#community" id="communityLink">Community</a>
-            <a class="hover:bg-gray-700 p-2 rounded" href="#settings" id="settingsLink">Settings</a>
-        </div>
-    </nav>
-    <div class="container mx-auto p-4" id="mainContent">
-        <!-- Dashboard content will dynamically load based on user login -->
+    <div id="communitySection" class="mb-4">
+        <h3 class="font-semibold">Community Feedback</h3>
+        <!-- Add functionality to view and handle community feedback -->
+        <button class="bg-blue-600 text-white p-2 rounded" onclick="manageCommunity()">Manage Community</button>
     </div>
-    <footer class="bg-green-600 text-white p-4 text-center">
-        <p>&copy; 2024 Pet Health Tracker. All rights reserved.</p>
-    </footer>
-</body>
-</html>
+    <div id="healthTipsSection" class="mb-4">
+        <h3 class="font-semibold">Health Tips</h3>
+        <!-- Add functionality to manage health tips -->
+        <button class="bg-blue-600 text-white p-2 rounded" onclick="manageHealthTips()">Manage Health Tips</button>
+    </div>
+    <div id="feedbackSection" class="mb-4">
+        <h3 class="font-semibold">User Feedback</h3>
+        <!-- Add functionality to view and handle user feedback -->
+        <button class="bg-blue-600 text-white p-2 rounded" onclick="manageFeedback()">Manage Feedback</button>
+    </div>
+</div>
