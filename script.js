@@ -8,6 +8,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let currentUser = null;
     let userPhoto = null;
+    let userDescription = null;
+
+    // Check if user is logged in
+    const savedUsername = localStorage.getItem("username");
+    if (savedUsername) {
+        currentUser = savedUsername;
+        updateUIForUser();
+    }
 
     // Toggle between login and signup forms
     showSignup.addEventListener("click", function () {
@@ -29,12 +37,11 @@ document.addEventListener("DOMContentLoaded", function () {
         e.preventDefault();
         const username = document.getElementById("signupUsername").value;
         const password = document.getElementById("signupPassword").value;
-        
-        // Save user info to localStorage (simulated)
+
+        // Save user info to localStorage
         localStorage.setItem("username", username);
         localStorage.setItem("password", password);
-        
-        // After signup, show login
+
         alert("Sign Up Successful! Please Login.");
         showLogin.click();
     });
@@ -45,7 +52,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const username = document.getElementById("loginUsername").value;
         const password = document.getElementById("loginPassword").value;
 
-        const savedUsername = localStorage.getItem("username");
         const savedPassword = localStorage.getItem("password");
 
         if (username === savedUsername && password === savedPassword) {
@@ -61,6 +67,8 @@ document.addEventListener("DOMContentLoaded", function () {
         currentUser = null;
         localStorage.removeItem("username");
         localStorage.removeItem("password");
+        localStorage.removeItem("userPhoto");
+        localStorage.removeItem("userDescription");
         resetUI();
     });
 
@@ -72,11 +80,15 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("loginForm").classList.add("hidden");
         logoutButton.classList.remove("hidden");
 
+        // Get saved photo and description from localStorage
+        userPhoto = localStorage.getItem("userPhoto") || 'https://via.placeholder.com/150';
+        userDescription = localStorage.getItem("userDescription") || '';
+
         const userContent = `
             <h2>Welcome back, ${currentUser}!</h2>
             <div id="userInfo">
-                <img src="${userPhoto || 'https://via.placeholder.com/150'}" alt="User Photo" class="rounded-full" id="userPhoto">
-                <textarea id="userDescription" placeholder="Add your description..." class="p-2 mb-2 border rounded w-full"></textarea>
+                <img src="${userPhoto}" alt="User Photo" class="rounded-full" id="userPhoto">
+                <textarea id="userDescription" placeholder="Add your description..." class="p-2 mb-2 border rounded w-full">${userDescription}</textarea>
                 <input type="file" id="uploadPhoto" class="p-2 mb-2 border rounded">
                 <button id="removePhotoButton" class="bg-red-600 text-white p-2 rounded mt-2">Remove Photo</button>
             </div>
@@ -90,6 +102,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 const reader = new FileReader();
                 reader.onload = function (event) {
                     userPhoto = event.target.result;
+                    localStorage.setItem("userPhoto", userPhoto); // Save to localStorage
                     document.getElementById("userPhoto").src = userPhoto;
                 };
                 reader.readAsDataURL(file);
@@ -98,8 +111,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Event listener for removing the photo
         document.getElementById("removePhotoButton").addEventListener("click", function () {
-            userPhoto = null;
-            document.getElementById("userPhoto").src = 'https://via.placeholder.com/150'; // Reset to default image
+            userPhoto = 'https://via.placeholder.com/150'; // Reset to default image
+            localStorage.setItem("userPhoto", userPhoto); // Save to localStorage
+            document.getElementById("userPhoto").src = userPhoto;
+        });
+
+        // Event listener for updating the user description
+        document.getElementById("userDescription").addEventListener("input", function (e) {
+            userDescription = e.target.value;
+            localStorage.setItem("userDescription", userDescription); // Save to localStorage
         });
     }
 
