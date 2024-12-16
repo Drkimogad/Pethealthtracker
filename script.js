@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const dashboardLink = document.getElementById("dashboardLink");
 
     let currentUser = null;
+    let userPhoto = null;
 
     // Toggle between login and signup forms
     showSignup.addEventListener("click", function () {
@@ -74,11 +75,21 @@ document.addEventListener("DOMContentLoaded", function () {
         const userContent = `
             <h2>Welcome back, ${currentUser}!</h2>
             <div id="userInfo">
-                <img src="https://via.placeholder.com/150" alt="User Photo" class="rounded-full">
+                <img src="${userPhoto || 'https://via.placeholder.com/150'}" alt="User Photo" class="rounded-full" id="userPhoto">
                 <textarea id="userDescription" placeholder="Add your description..." class="p-2 mb-2 border rounded w-full"></textarea>
+                <button id="changePhotoButton" class="bg-blue-600 text-white p-2 rounded">Change Photo</button>
             </div>
         `;
         document.getElementById("mainContent").innerHTML = userContent;
+
+        // Event listener for changing the user photo
+        document.getElementById("changePhotoButton").addEventListener("click", function () {
+            const photoUrl = prompt("Enter the URL of your photo:");
+            if (photoUrl) {
+                userPhoto = photoUrl;
+                document.getElementById("userPhoto").src = photoUrl;
+            }
+        });
     }
 
     function resetUI() {
@@ -87,7 +98,7 @@ document.addEventListener("DOMContentLoaded", function () {
         showSignup.click(); // Show signup form by default
     }
 
-    // Navigation links (ensure they're clickable)
+    // Dashboard, Profiles, etc. Links
     dashboardLink.addEventListener("click", function (e) {
         e.preventDefault();
         // Load the dashboard content dynamically
