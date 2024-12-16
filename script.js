@@ -77,18 +77,29 @@ document.addEventListener("DOMContentLoaded", function () {
             <div id="userInfo">
                 <img src="${userPhoto || 'https://via.placeholder.com/150'}" alt="User Photo" class="rounded-full" id="userPhoto">
                 <textarea id="userDescription" placeholder="Add your description..." class="p-2 mb-2 border rounded w-full"></textarea>
-                <button id="changePhotoButton" class="bg-blue-600 text-white p-2 rounded">Change Photo</button>
+                <input type="file" id="uploadPhoto" class="p-2 mb-2 border rounded">
+                <button id="removePhotoButton" class="bg-red-600 text-white p-2 rounded mt-2">Remove Photo</button>
             </div>
         `;
         document.getElementById("mainContent").innerHTML = userContent;
 
-        // Event listener for changing the user photo
-        document.getElementById("changePhotoButton").addEventListener("click", function () {
-            const photoUrl = prompt("Enter the URL of your photo:");
-            if (photoUrl) {
-                userPhoto = photoUrl;
-                document.getElementById("userPhoto").src = photoUrl;
+        // Event listener for uploading a photo
+        document.getElementById("uploadPhoto").addEventListener("change", function (e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    userPhoto = event.target.result;
+                    document.getElementById("userPhoto").src = userPhoto;
+                };
+                reader.readAsDataURL(file);
             }
+        });
+
+        // Event listener for removing the photo
+        document.getElementById("removePhotoButton").addEventListener("click", function () {
+            userPhoto = null;
+            document.getElementById("userPhoto").src = 'https://via.placeholder.com/150'; // Reset to default image
         });
     }
 
