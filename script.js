@@ -176,4 +176,5 @@ function deleteCommunityPost(postContent) {
     let communityPosts = JSON.parse(localStorage.getItem('communityPosts')) || [];
     communityPosts = communityPosts.filter(post => post !== postContent);
     localStorage.setItem('communityPosts', JSON.stringify(communityPosts));
-    document.getElementById('communityLink').click();
+    document.getElementById('communityLink').click(); // Refresh community section
+}
