@@ -9,8 +9,8 @@ const userDescription = document.getElementById('userDescription');
 const dashboardLink = document.getElementById('dashboardLink');
 const profilesLink = document.getElementById('profilesLink');
 const remindersLink = document.getElementById('remindersLink');
-const healthProgressLink = document.getElementById('petHealthProgressLink');
-const vaccinationLink = document.getElementById('vaccinationTrackerLink');
+const healthProgressLink = document.getElementById('healthProgressLink');
+const vaccinationLink = document.getElementById('vaccinationLink');
 const settingsLink = document.getElementById('settingsLink');
 
 // Initialize User Data (LocalStorage)
@@ -110,23 +110,23 @@ document.getElementById('updateDescription').addEventListener('click', () => {
 });
 
 // Handle Click on Dashboard Sections
-document.getElementById('profilesLink').addEventListener('click', () => {
+profilesLink.addEventListener('click', () => {
     displayContent('profilesContent');
 });
 
-document.getElementById('remindersLink').addEventListener('click', () => {
+remindersLink.addEventListener('click', () => {
     displayContent('remindersContent');
 });
 
-document.getElementById('petHealthProgressLink').addEventListener('click', () => {
+healthProgressLink.addEventListener('click', () => {
     displayContent('healthProgressContent');
 });
 
-document.getElementById('vaccinationTrackerLink').addEventListener('click', () => {
+vaccinationLink.addEventListener('click', () => {
     displayContent('vaccinationTrackerContent');
 });
 
-document.getElementById('settingsLink').addEventListener('click', () => {
+settingsLink.addEventListener('click', () => {
     displayContent('settingsContent');
 });
 
@@ -143,15 +143,5 @@ function displayContent(contentId) {
     }
 }
 
-// Load Default Content (Dashboard)
-function loadDefaultContent() {
-    const defaultContent = document.createElement('div');
-    defaultContent.classList.add('content-block');
-    defaultContent.id = 'dashboardContent';
-    defaultContent.innerHTML = '<h2>Welcome to your Pet Health Dashboard!</h2><p>Click any section above to view your data.</p>';
-    document.getElementById('mainContent').appendChild(defaultContent);
-}
-
 // Initialize
 loadUserData();
-loadDefaultContent();
