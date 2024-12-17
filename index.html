@@ -1,22 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pet Health Tracker</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
 </head>
+
 <body class="bg-gray-100 font-roboto">
-    <!-- Header -->
     <header class="bg-green-600 text-white p-4 text-center">
         <h1 class="text-2xl font-bold">Pet Health Tracker</h1>
     </header>
-
-    <!-- User Section: Sign Up, Login, Logout -->
     <div class="user-section bg-gray-200 p-4 text-center">
         <div id="toggleForms">
             <button id="showSignup" class="bg-blue-600 text-white p-2 rounded">Sign Up</button>
@@ -36,8 +35,6 @@
         </form>
         <button id="logoutButton" class="bg-red-600 text-white p-2 rounded hidden">Logout</button>
     </div>
-
-    <!-- Navigation Bar: Removed Community and Settings links -->
     <nav class="bg-gray-800 text-white">
         <div class="container mx-auto flex justify-around p-4">
             <a class="hover:bg-gray-700 p-2 rounded" href="#dashboard" id="dashboardLink">Dashboard</a>
@@ -46,31 +43,29 @@
             <a class="hover:bg-gray-700 p-2 rounded" href="#health-tips" id="healthTipsLink">Health Tips</a>
         </div>
     </nav>
-
-    <!-- Dashboard Content -->
     <div class="container mx-auto p-4" id="mainContent">
-        <section id="dashboard" class="hidden">
-            <h2 class="font-bold text-xl mb-4">Welcome, <span id="userName">User</span>!</h2>
-            <img src="" alt="User Photo" id="userPhoto" class="w-24 h-24 rounded-full mb-4" />
-            <p id="userDescription">Please update your description.</p>
-            <button id="editPhoto" class="bg-blue-600 text-white p-2 rounded">Change Photo</button>
-            <button id="editDescription" class="bg-blue-600 text-white p-2 rounded mt-2">Edit Description</button>
-
-            <!-- Fixed Blog on Chronic Illnesses -->
-            <section id="chronicIllnessBlog" class="mt-8">
-                <h3 class="text-lg font-bold mb-4">Tips for Managing Chronic Illnesses in Pets</h3>
-                <ul>
-                    <li><strong>Diabetes:</strong> Regular monitoring of glucose levels is crucial. Follow the vet's dietary recommendations.</li>
-                    <li><strong>Arthritis:</strong> Pain management and joint supplements can greatly improve mobility.</li>
-                    <li><strong>Chronic Kidney Disease:</strong> Consistent hydration and a kidney-friendly diet are key to managing this condition.</li>
-                </ul>
-            </section>
-        </section>
+        <div id="dashboardContent">
+            <!-- Dashboard content will dynamically load based on user login -->
+            <div id="userWelcomeMessage">
+                <h2>Welcome, <span id="userName"></span></h2>
+                <img id="userPhoto" src="" alt="User Photo" class="w-24 h-24 rounded-full mb-4">
+                <p id="userDescription"></p>
+                <button id="editPhoto" class="bg-blue-600 text-white p-2 rounded mt-4">Change Photo</button>
+                <input type="file" id="photoInput" accept="image/*" class="hidden">
+                <button id="editDescription" class="bg-blue-600 text-white p-2 rounded mt-4">Edit Description</button>
+                <textarea id="descriptionInput" class="hidden p-2 w-full border rounded mt-4" placeholder="Enter your description"></textarea>
+                <button id="saveDescription" class="hidden bg-green-600 text-white p-2 rounded mt-4">Save Description</button>
+            </div>
+            <div class="p-4 mt-4">
+                <button class="bg-gray-800 text-white p-2 rounded" id="profilesLink">Manage Pet Profiles</button>
+                <button class="bg-gray-800 text-white p-2 rounded ml-4" id="remindersLink">Set Reminders</button>
+                <button class="bg-gray-800 text-white p-2 rounded ml-4" id="healthTipsLink">Health Tips</button>
+            </div>
+        </div>
     </div>
-
-    <!-- Footer -->
     <footer class="bg-green-600 text-white p-4 text-center">
         <p>&copy; 2024 Pet Health Tracker. All rights reserved.</p>
     </footer>
 </body>
+
 </html>
