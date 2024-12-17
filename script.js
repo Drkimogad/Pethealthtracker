@@ -1,147 +1,90 @@
-// Initial Setup
-let currentUser = null;
+document.addEventListener('DOMContentLoaded', function() {
+    const signupForm = document.getElementById('signupForm');
+    const loginForm = document.getElementById('loginForm');
+    const logoutButton = document.getElementById('logoutButton');
+    const showSignupButton = document.getElementById('showSignup');
+    const showLoginButton = document.getElementById('showLogin');
+    const dashboardLink = document.getElementById('dashboardLink');
+    const profilesLink = document.getElementById('profilesLink');
+    const remindersLink = document.getElementById('remindersLink');
+    const petHealthProgressLink = document.getElementById('petHealthProgressLink');
+    const settingsLink = document.getElementById('settingsLink');
+    const mainContent = document.getElementById('mainContent');
 
-// DOM Elements
-const userDetails = document.getElementById('userDetails');
-const userPhoto = document.getElementById('profilePic');
-const userName = document.getElementById('userName');
-const userDescription = document.getElementById('userDescription');
-const dashboardLink = document.getElementById('dashboardLink');
-const profilesLink = document.getElementById('profilesLink');
-const remindersLink = document.getElementById('remindersLink');
-const healthProgressLink = document.getElementById('healthProgressLink');
-const vaccinationLink = document.getElementById('vaccinationLink');
-const settingsLink = document.getElementById('settingsLink');
+    const user = JSON.parse(localStorage.getItem('user'));
 
-// Initialize User Data (LocalStorage)
-function loadUserData() {
-    const storedUserData = JSON.parse(localStorage.getItem('userData'));
-    if (storedUserData) {
-        currentUser = storedUserData;
-        updateUserUI();
-    } else {
-        showLoginForm();
+    function loadUserData() {
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (user) {
+            document.getElementById('mainContent').innerHTML = `
+                <h2>Welcome back, ${user.username}!</h2>
+                <p><strong>Description:</strong> ${user.description || 'No description provided.'}</p>
+                <img src="${user.photo || 'https://via.placeholder.com/150'}" alt="User Photo" />
+            `;
+            showLoginButton.classList.add('hidden');
+            showSignupButton.classList.add('hidden');
+            logoutButton.classList.remove('hidden');
+        }
     }
-}
 
-// Update User UI
-function updateUserUI() {
-    userName.textContent = currentUser.username;
-    userDescription.textContent = currentUser.description || "Add a description about yourself.";
-    userPhoto.src = currentUser.photo || "https://via.placeholder.com/150"; // Default image if no photo is set
-}
-
-// Handle Login Form
-document.getElementById('loginForm').addEventListener('submit', (e) => {
-    e.preventDefault();
-    const username = document.getElementById('loginUsername').value;
-    const password = document.getElementById('loginPassword').value;
-    // For simplicity, we're directly using the entered credentials. You can add more security measures in the future.
-    const userData = {
-        username: username,
-        password: password,
-        photo: null,
-        description: "",
-    };
-    localStorage.setItem('userData', JSON.stringify(userData));
-    currentUser = userData;
-    updateUserUI();
-    showDashboard();
-});
-
-// Handle SignUp Form
-document.getElementById('signupForm').addEventListener('submit', (e) => {
-    e.preventDefault();
-    const username = document.getElementById('signupUsername').value;
-    const password = document.getElementById('signupPassword').value;
-    const userData = {
-        username: username,
-        password: password,
-        photo: null,
-        description: "",
-    };
-    localStorage.setItem('userData', JSON.stringify(userData));
-    currentUser = userData;
-    updateUserUI();
-    showDashboard();
-});
-
-// Show Dashboard after Login
-function showDashboard() {
-    document.getElementById('userSection').style.display = "none";
-    document.getElementById('mainContent').style.display = "block";
-}
-
-// Logout User
-document.getElementById('logoutButton').addEventListener('click', () => {
-    localStorage.removeItem('userData');
-    currentUser = null;
-    showLoginForm();
-});
-
-// Show Login Form
-function showLoginForm() {
-    document.getElementById('userSection').style.display = "block";
-    document.getElementById('mainContent').style.display = "none";
-}
-
-// Upload Profile Photo
-document.getElementById('uploadPhoto').addEventListener('change', (e) => {
-    const file = e.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = () => {
-            currentUser.photo = reader.result;
-            localStorage.setItem('userData', JSON.stringify(currentUser));
-            userPhoto.src = currentUser.photo;
+    function updateUserData() {
+        const userData = {
+            username: document.getElementById('signupUsername').value || document.getElementById('loginUsername').value,
+            photo: document.getElementById('photoInput').files.length > 0 ? URL.createObjectURL(document.getElementById('photoInput').files[0]) : '',
+            description: document.getElementById('userDescription').value
         };
-        reader.readAsDataURL(file);
+        localStorage.setItem('user', JSON.stringify(userData));
+        loadUserData();
     }
-});
 
-// Update Description
-document.getElementById('updateDescription').addEventListener('click', () => {
-    const newDescription = prompt("Update your description:", currentUser.description || "");
-    if (newDescription !== null) {
-        currentUser.description = newDescription;
-        localStorage.setItem('userData', JSON.stringify(currentUser));
-        userDescription.textContent = currentUser.description;
-    }
-});
-
-// Handle Click on Dashboard Sections
-profilesLink.addEventListener('click', () => {
-    displayContent('profilesContent');
-});
-
-remindersLink.addEventListener('click', () => {
-    displayContent('remindersContent');
-});
-
-healthProgressLink.addEventListener('click', () => {
-    displayContent('healthProgressContent');
-});
-
-vaccinationLink.addEventListener('click', () => {
-    displayContent('vaccinationTrackerContent');
-});
-
-settingsLink.addEventListener('click', () => {
-    displayContent('settingsContent');
-});
-
-// Show content dynamically
-function displayContent(contentId) {
-    const contentElements = document.querySelectorAll('.content-block');
-    contentElements.forEach(element => {
-        element.style.display = 'none'; // Hide all sections
+    // Handle SignUp
+    signupForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        localStorage.setItem('user', JSON.stringify({
+            username: document.getElementById('signupUsername').value,
+            photo: '',
+            description: ''
+        }));
+        loadUserData();
     });
 
-    const activeContent = document.getElementById(contentId);
-    if (activeContent) {
-        activeContent.style.display = 'block'; // Show the clicked section
-    }
-}
+    // Handle Login
+    loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const userData = JSON.parse(localStorage.getItem('user'));
+        if (userData.username === document.getElementById('loginUsername').value) {
+            loadUserData();
+        } else {
+            alert('Invalid login details');
+        }
+    });
 
-// Initialize
-loadUserData();
+    // Handle LogOut
+    logoutButton.addEventListener('click', () => {
+        localStorage.removeItem('user');
+        location.reload();
+    });
+
+    // Dashboard functionality
+    dashboardLink.addEventListener('click', () => {
+        mainContent.innerHTML = `<h2>Dashboard</h2><p>Welcome to your pet health dashboard.</p>`;
+    });
+
+    profilesLink.addEventListener('click', () => {
+        mainContent.innerHTML = `<h2>Profiles</h2><p>Manage your pet profiles here.</p>`;
+    });
+
+    remindersLink.addEventListener('click', () => {
+        mainContent.innerHTML = `<h2>Reminders</h2><p>Set reminders for your pets here.</p>`;
+    });
+
+    petHealthProgressLink.addEventListener('click', () => {
+        mainContent.innerHTML = `<h2>Pet Health Progress</h2><p>Track your pet's health progress.</p>`;
+    });
+
+    settingsLink.addEventListener('click', () => {
+        mainContent.innerHTML = `<h2>Settings</h2><p>Manage your pet health tracker settings here.</p>`;
+    });
+
+    loadUserData();
+});
