@@ -1,150 +1,157 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const userSection = document.querySelector('.user-section');
-    const dashboardContent = document.querySelector('#dashboardContent');
-    const logoutButton = document.querySelector('#logoutButton');
-    const loginForm = document.querySelector('#loginForm');
-    const signupForm = document.querySelector('#signupForm');
-    const showSignupBtn = document.querySelector('#showSignup');
-    const showLoginBtn = document.querySelector('#showLogin');
-    const photoInput = document.querySelector('#photoInput');
-    const userPhoto = document.querySelector('#userPhoto');
-    const userName = document.querySelector('#userName');
-    const userDescription = document.querySelector('#userDescription');
-    const editPhotoButton = document.querySelector('#editPhoto');
-    const saveDescriptionButton = document.querySelector('#saveDescription');
-    const descriptionInput = document.querySelector('#descriptionInput');
-    const editDescriptionButton = document.querySelector('#editDescription');
-    const profilesLinkBtn = document.querySelector('#profilesLinkBtn');
-    const remindersLinkBtn = document.querySelector('#remindersLinkBtn');
-    const healthTipsLinkBtn = document.querySelector('#healthTipsLinkBtn');
+// Initial Setup
+let currentUser = null;
 
-    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+// DOM Elements
+const userDetails = document.getElementById('userDetails');
+const userPhoto = document.getElementById('profilePic');
+const userName = document.getElementById('userName');
+const userDescription = document.getElementById('userDescription');
+const dashboardLink = document.getElementById('dashboardLink');
+const profilesLink = document.getElementById('profilesLink');
+const remindersLink = document.getElementById('remindersLink');
+const healthProgressLink = document.getElementById('petHealthProgressLink');
+const vaccinationLink = document.getElementById('vaccinationTrackerLink');
+const settingsLink = document.getElementById('settingsLink');
 
-    // Function to display user data on the dashboard
-    const updateUserDashboard = () => {
-        if (currentUser) {
-            userName.textContent = currentUser.username;
-            userDescription.textContent = currentUser.description || 'No description added.';
-            userPhoto.src = currentUser.photo || 'https://via.placeholder.com/150';
-            userSection.classList.add('hidden');
-            dashboardContent.classList.remove('hidden');
-        }
-    };
-
-    // Show sign up form
-    showSignupBtn.addEventListener('click', () => {
-        signupForm.classList.remove('hidden');
-        loginForm.classList.add('hidden');
-        showSignupBtn.classList.add('hidden');
-        showLoginBtn.classList.remove('hidden');
-    });
-
-    // Show login form
-    showLoginBtn.addEventListener('click', () => {
-        loginForm.classList.remove('hidden');
-        signupForm.classList.add('hidden');
-        showSignupBtn.classList.remove('hidden');
-        showLoginBtn.classList.add('hidden');
-    });
-
-    // Handle signup form submission
-    signupForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const username = document.querySelector('#signupUsername').value;
-        const password = document.querySelector('#signupPassword').value;
-
-        // Save user data to localStorage
-        const newUser = {
-            username,
-            password,
-            description: '',
-            photo: ''
-        };
-        localStorage.setItem('currentUser', JSON.stringify(newUser));
-        currentUser = newUser;
-
-        // Switch to login form
-        signupForm.classList.add('hidden');
-        loginForm.classList.remove('hidden');
-        showSignupBtn.classList.remove('hidden');
-        showLoginBtn.classList.add('hidden');
-        updateUserDashboard();
-    });
-
-    // Handle login form submission
-    loginForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const username = document.querySelector('#loginUsername').value;
-        const password = document.querySelector('#loginPassword').value;
-
-        // Check if user exists
-        const savedUser = JSON.parse(localStorage.getItem('currentUser'));
-        if (savedUser && savedUser.username === username && savedUser.password === password) {
-            currentUser = savedUser;
-            updateUserDashboard();
-        } else {
-            alert('Invalid login credentials');
-        }
-    });
-
-    // Handle logout
-    logoutButton.addEventListener('click', () => {
-        localStorage.removeItem('currentUser');
-        currentUser = null;
-        userSection.classList.remove('hidden');
-        dashboardContent.classList.add('hidden');
-    });
-
-    // Allow the user to upload a photo
-    editPhotoButton.addEventListener('click', () => {
-        photoInput.click();
-    });
-
-    photoInput.addEventListener('change', () => {
-        const file = photoInput.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function () {
-                userPhoto.src = reader.result;
-                currentUser.photo = reader.result;
-                localStorage.setItem('currentUser', JSON.stringify(currentUser));
-            };
-            reader.readAsDataURL(file);
-        }
-    });
-
-    // Handle description editing
-    editDescriptionButton.addEventListener('click', () => {
-        descriptionInput.classList.remove('hidden');
-        saveDescriptionButton.classList.remove('hidden');
-    });
-
-    saveDescriptionButton.addEventListener('click', () => {
-        currentUser.description = descriptionInput.value;
-        localStorage.setItem('currentUser', JSON.stringify(currentUser));
-        userDescription.textContent = currentUser.description;
-        descriptionInput.classList.add('hidden');
-        saveDescriptionButton.classList.add('hidden');
-    });
-
-    // Handle profile, reminders, and health tips content (stub content)
-    profilesLinkBtn.addEventListener('click', () => {
-        alert('Manage Pet Profiles clicked');
-    });
-
-    remindersLinkBtn.addEventListener('click', () => {
-        alert('Set Reminders clicked');
-    });
-
-    healthTipsLinkBtn.addEventListener('click', () => {
-        alert('Health Tips clicked');
-    });
-
-    // Initialize the page
-    if (currentUser) {
-        updateUserDashboard();
+// Initialize User Data (LocalStorage)
+function loadUserData() {
+    const storedUserData = JSON.parse(localStorage.getItem('userData'));
+    if (storedUserData) {
+        currentUser = storedUserData;
+        updateUserUI();
     } else {
-        userSection.classList.remove('hidden');
-        dashboardContent.classList.add('hidden');
+        showLoginForm();
+    }
+}
+
+// Update User UI
+function updateUserUI() {
+    userName.textContent = currentUser.username;
+    userDescription.textContent = currentUser.description || "Add a description about yourself.";
+    userPhoto.src = currentUser.photo || "https://via.placeholder.com/150"; // Default image if no photo is set
+}
+
+// Handle Login Form
+document.getElementById('loginForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const username = document.getElementById('loginUsername').value;
+    const password = document.getElementById('loginPassword').value;
+    // For simplicity, we're directly using the entered credentials. You can add more security measures in the future.
+    const userData = {
+        username: username,
+        password: password,
+        photo: null,
+        description: "",
+    };
+    localStorage.setItem('userData', JSON.stringify(userData));
+    currentUser = userData;
+    updateUserUI();
+    showDashboard();
+});
+
+// Handle SignUp Form
+document.getElementById('signupForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const username = document.getElementById('signupUsername').value;
+    const password = document.getElementById('signupPassword').value;
+    const userData = {
+        username: username,
+        password: password,
+        photo: null,
+        description: "",
+    };
+    localStorage.setItem('userData', JSON.stringify(userData));
+    currentUser = userData;
+    updateUserUI();
+    showDashboard();
+});
+
+// Show Dashboard after Login
+function showDashboard() {
+    document.getElementById('userSection').style.display = "none";
+    document.getElementById('mainContent').style.display = "block";
+}
+
+// Logout User
+document.getElementById('logoutButton').addEventListener('click', () => {
+    localStorage.removeItem('userData');
+    currentUser = null;
+    showLoginForm();
+});
+
+// Show Login Form
+function showLoginForm() {
+    document.getElementById('userSection').style.display = "block";
+    document.getElementById('mainContent').style.display = "none";
+}
+
+// Upload Profile Photo
+document.getElementById('uploadPhoto').addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = () => {
+            currentUser.photo = reader.result;
+            localStorage.setItem('userData', JSON.stringify(currentUser));
+            userPhoto.src = currentUser.photo;
+        };
+        reader.readAsDataURL(file);
     }
 });
+
+// Update Description
+document.getElementById('updateDescription').addEventListener('click', () => {
+    const newDescription = prompt("Update your description:", currentUser.description || "");
+    if (newDescription !== null) {
+        currentUser.description = newDescription;
+        localStorage.setItem('userData', JSON.stringify(currentUser));
+        userDescription.textContent = currentUser.description;
+    }
+});
+
+// Handle Click on Dashboard Sections
+document.getElementById('profilesLink').addEventListener('click', () => {
+    displayContent('profilesContent');
+});
+
+document.getElementById('remindersLink').addEventListener('click', () => {
+    displayContent('remindersContent');
+});
+
+document.getElementById('petHealthProgressLink').addEventListener('click', () => {
+    displayContent('healthProgressContent');
+});
+
+document.getElementById('vaccinationTrackerLink').addEventListener('click', () => {
+    displayContent('vaccinationTrackerContent');
+});
+
+document.getElementById('settingsLink').addEventListener('click', () => {
+    displayContent('settingsContent');
+});
+
+// Show content dynamically
+function displayContent(contentId) {
+    const contentElements = document.querySelectorAll('.content-block');
+    contentElements.forEach(element => {
+        element.style.display = 'none'; // Hide all sections
+    });
+
+    const activeContent = document.getElementById(contentId);
+    if (activeContent) {
+        activeContent.style.display = 'block'; // Show the clicked section
+    }
+}
+
+// Load Default Content (Dashboard)
+function loadDefaultContent() {
+    const defaultContent = document.createElement('div');
+    defaultContent.classList.add('content-block');
+    defaultContent.id = 'dashboardContent';
+    defaultContent.innerHTML = '<h2>Welcome to your Pet Health Dashboard!</h2><p>Click any section above to view your data.</p>';
+    document.getElementById('mainContent').appendChild(defaultContent);
+}
+
+// Initialize
+loadUserData();
+loadDefaultContent();
