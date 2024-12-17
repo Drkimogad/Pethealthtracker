@@ -1,54 +1,130 @@
-const mainContent = document.getElementById("mainContent");
+// User data storage and retrieval
+let loggedInUser = JSON.parse(localStorage.getItem("loggedInUser")) || null;
 
-// Function to load dashboard sections
+// DOM elements
+const loginForm = document.getElementById("loginForm");
+const signupForm = document.getElementById("signupForm");
+const logoutButton = document.getElementById("logoutButton");
+const dashboardLink = document.getElementById("dashboardLink");
+const mainContent = document.getElementById("mainContent");
+const toggleForms = document.getElementById("toggleForms");
+const showSignup = document.getElementById("showSignup");
+const showLogin = document.getElementById("showLogin");
+
+// Function to update the UI based on the user's login state
+const updateUI = () => {
+    if (loggedInUser) {
+        toggleForms.classList.add("hidden");
+        logoutButton.classList.remove("hidden");
+        loadSection("dashboard");
+    } else {
+        toggleForms.classList.remove("hidden");
+        logoutButton.classList.add("hidden");
+        mainContent.innerHTML = `<h2 class="text-center text-xl mt-10">Please log in or sign up to access the dashboard.</h2>`;
+    }
+};
+
+// Function to load dashboard sections dynamically
 const loadSection = (sectionId) => {
-    // Clear the main content area
     mainContent.innerHTML = "";
 
-    // Dynamically load content based on the section ID
     if (sectionId === "dashboard") {
-        mainContent.innerHTML = `
-            <h2 class="font-bold text-xl mb-4">Welcome, <span id="userName">${loggedInUser.username}</span>!</h2>
-            <img src="${loggedInUser.photo || 'https://via.placeholder.com/150'}" alt="User Photo" class="w-24 h-24 rounded-full mb-4" />
-            <p id="userDescription">${loggedInUser.description || "Please update your description."}</p>
-            <button id="editPhoto" class="bg-blue-600 text-white p-2 rounded">Change Photo</button>
-            <button id="editDescription" class="bg-blue-600 text-white p-2 rounded mt-2">Edit Description</button>
-        `;
+        if (loggedInUser) {
+            mainContent.innerHTML = `
+                <h2 class="font-bold text-xl mb-4">Welcome, <span id="userName">${loggedInUser.username}</span>!</h2>
+                <img src="${loggedInUser.photo || 'https://via.placeholder.com/150'}" alt="User Photo" class="w-24 h-24 rounded-full mb-4" />
+                <p id="userDescription">${loggedInUser.description || "Please update your description."}</p>
+                <button id="editPhoto" class="bg-blue-600 text-white p-2 rounded">Change Photo</button>
+                <button id="editDescription" class="bg-blue-600 text-white p-2 rounded mt-2">Edit Description</button>
+            `;
 
-        // Add event listeners for photo and description buttons
-        document.getElementById("editPhoto").addEventListener("click", changePhoto);
-        document.getElementById("editDescription").addEventListener("click", changeDescription);
-    } else if (sectionId === "profiles") {
+            // Event listeners for photo and description editing
+            document.getElementById("editPhoto").addEventListener("click", changePhoto);
+            document.getElementById("editDescription").addEventListener("click", changeDescription);
+        }
+    } else {
+        // Placeholder sections for other links
         mainContent.innerHTML = `
-            <h3 class="text-xl font-bold mb-4">Manage Your Pet Profiles</h3>
-            <p class="mb-4">Create and manage profiles for all your pets. Keep track of their health records, vaccinations, and more.</p>
-            <button class="bg-green-600 text-white p-2 rounded" onclick="alert('Feature Coming Soon!')">Add New Profile</button>
-        `;
-    } else if (sectionId === "reminders") {
-        mainContent.innerHTML = `
-            <h3 class="text-xl font-bold mb-4">Set Pet Care Reminders</h3>
-            <p class="mb-4">Schedule reminders for vaccinations, grooming, vet appointments, and more to keep your pet healthy and happy.</p>
-            <button class="bg-green-600 text-white p-2 rounded" onclick="alert('Feature Coming Soon!')">Add New Reminder</button>
-        `;
-    } else if (sectionId === "health-tips") {
-        mainContent.innerHTML = `
-            <h3 class="text-xl font-bold mb-4">Health Tips</h3>
-            <ul class="list-disc ml-5">
-                <li><strong>Diabetes:</strong> Regular monitoring of glucose levels is crucial. Follow the vet's dietary recommendations.</li>
-                <li><strong>Arthritis:</strong> Pain management and joint supplements can greatly improve mobility.</li>
-                <li><strong>Chronic Kidney Disease:</strong> Consistent hydration and a kidney-friendly diet are key to managing this condition.</li>
-            </ul>
+            <h3 class="text-xl font-bold mb-4">${sectionId.toUpperCase()} Section</h3>
+            <p>Content for the ${sectionId} section will appear here.</p>
         `;
     }
 };
 
-// Add event listeners for navigation links
-document.getElementById("dashboardLink").addEventListener("click", () => loadSection("dashboard"));
-document.getElementById("profilesLink").addEventListener("click", () => loadSection("profiles"));
-document.getElementById("remindersLink").addEventListener("click", () => loadSection("reminders"));
-document.getElementById("healthTipsLink").addEventListener("click", () => loadSection("health-tips"));
+// Change photo functionality
+const changePhoto = () => {
+    const newPhoto = prompt("Enter the URL of your new profile photo:");
+    if (newPhoto) {
+        loggedInUser.photo = newPhoto;
+        localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
+        loadSection("dashboard");
+    }
+};
 
-// Initial call to display the dashboard section on login
-if (loggedInUser) {
-    loadSection("dashboard");
-}
+// Change description functionality
+const changeDescription = () => {
+    const newDescription = prompt("Enter a new description:");
+    if (newDescription) {
+        loggedInUser.description = newDescription;
+        localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
+        loadSection("dashboard");
+    }
+};
+
+// Login functionality
+loginForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const username = document.getElementById("loginUsername").value;
+    const password = document.getElementById("loginPassword").value;
+
+    const savedUser = JSON.parse(localStorage.getItem(username));
+
+    if (savedUser && savedUser.password === password) {
+        loggedInUser = savedUser;
+        localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
+        updateUI();
+    } else {
+        alert("Invalid username or password.");
+    }
+});
+
+// Signup functionality
+signupForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const username = document.getElementById("signupUsername").value;
+    const password = document.getElementById("signupPassword").value;
+
+    if (!localStorage.getItem(username)) {
+        const newUser = { username, password, photo: null, description: null };
+        localStorage.setItem(username, JSON.stringify(newUser));
+        alert("Signup successful! You can now log in.");
+        showLoginForm();
+    } else {
+        alert("Username already exists. Please choose a different one.");
+    }
+});
+
+// Logout functionality
+logoutButton.addEventListener("click", () => {
+    loggedInUser = null;
+    localStorage.removeItem("loggedInUser");
+    updateUI();
+});
+
+// Toggle between login and signup forms
+showSignup.addEventListener("click", () => {
+    signupForm.classList.remove("hidden");
+    loginForm.classList.add("hidden");
+    showSignup.classList.add("hidden");
+    showLogin.classList.remove("hidden");
+});
+
+showLogin.addEventListener("click", () => {
+    loginForm.classList.remove("hidden");
+    signupForm.classList.add("hidden");
+    showSignup.classList.remove("hidden");
+    showLogin.classList.add("hidden");
+});
+
+// Initialize the UI
+updateUI();
