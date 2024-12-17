@@ -8,17 +8,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"/>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
 </head>
 <body class="bg-gray-100 font-roboto">
-
-    <!-- Header -->
     <header class="bg-green-600 text-white p-4 text-center">
         <h1 class="text-2xl font-bold">Pet Health Tracker</h1>
     </header>
 
-    <!-- User Section -->
-    <div class="user-section bg-gray-200 p-4 text-center">
+    <!-- User Section (Login, SignUp, User Data) -->
+    <div id="userSection" class="user-section bg-gray-200 p-4 text-center">
         <div id="toggleForms">
             <button id="showSignup" class="bg-blue-600 text-white p-2 rounded">Sign Up</button>
             <button id="showLogin" class="bg-gray-500 text-white p-2 rounded hidden">Login</button>
@@ -29,7 +26,7 @@
             <input type="password" id="signupPassword" placeholder="Password" class="p-2 mb-2 border rounded w-1/3" required>
             <button type="submit" class="bg-green-600 text-white p-2 rounded">Sign Up</button>
         </form>
-        <form id="loginForm">
+        <form id="loginForm" class="hidden">
             <h3 class="font-bold mb-2">Login</h3>
             <input type="text" id="loginUsername" placeholder="Username" class="p-2 mb-2 border rounded w-1/3" required>
             <input type="password" id="loginPassword" placeholder="Password" class="p-2 mb-2 border rounded w-1/3" required>
@@ -38,55 +35,55 @@
         <button id="logoutButton" class="bg-red-600 text-white p-2 rounded hidden">Logout</button>
     </div>
 
-    <!-- Navigation Bar -->
-    <nav class="bg-gray-800 text-white">
-        <div class="container mx-auto flex justify-around p-4">
-            <a class="hover:bg-gray-700 p-2 rounded" href="#dashboard" id="dashboardLink">Dashboard</a>
-            <a class="hover:bg-gray-700 p-2 rounded" href="#profiles" id="profilesLink">Profiles</a>
-            <a class="hover:bg-gray-700 p-2 rounded" href="#reminders" id="remindersLink">Reminders</a>
-            <a class="hover:bg-gray-700 p-2 rounded" href="#pet-health-progress" id="petHealthProgressLink">Pet Health Progress</a>
-            <a class="hover:bg-gray-700 p-2 rounded" href="#vaccination-tracker" id="vaccinationTrackerLink">Vaccination Tracker</a>
-            <a class="hover:bg-gray-700 p-2 rounded" href="#settings" id="settingsLink">Settings</a>
+    <!-- Main Content (Dashboard and Sections) -->
+    <div class="container mx-auto p-4" id="mainContent" style="display: none;">
+        <div id="userDetails" class="text-center">
+            <img id="profilePic" src="https://via.placeholder.com/150" alt="Profile Photo" class="rounded-full mb-2 w-32 h-32">
+            <h2 id="userName">User Name</h2>
+            <p id="userDescription">Description here...</p>
+            <button id="updateDescription" class="bg-blue-600 text-white p-2 rounded mb-2">Edit Description</button>
+            <input type="file" id="uploadPhoto" class="hidden">
+            <button id="changePhotoBtn" class="bg-green-600 text-white p-2 rounded">Change Photo</button>
         </div>
-    </nav>
 
-    <!-- Main Content -->
-    <div class="container mx-auto p-4" id="mainContent">
-        <div id="userDetails" class="bg-gray-200 p-4 rounded-md shadow-md">
-            <div id="userPhoto" class="text-center mb-4">
-                <img id="profilePic" src="" alt="User Photo" class="w-32 h-32 rounded-full mx-auto mb-4">
+        <div id="dashboard">
+            <h2 class="text-2xl font-bold">Welcome to Your Dashboard</h2>
+            <div class="p-4">
+                <button id="profilesLink" class="bg-gray-800 text-white p-2 rounded w-full">Profiles</button>
+                <button id="remindersLink" class="bg-gray-800 text-white p-2 rounded w-full">Reminders</button>
+                <button id="healthProgressLink" class="bg-gray-800 text-white p-2 rounded w-full">Health Progress</button>
+                <button id="vaccinationLink" class="bg-gray-800 text-white p-2 rounded w-full">Vaccination Tracker</button>
+                <button id="settingsLink" class="bg-gray-800 text-white p-2 rounded w-full">Settings</button>
             </div>
-            <h3 id="userName" class="text-xl font-bold text-center mb-2"></h3>
-            <p id="userDescription" class="text-center mb-4"></p>
-            <div id="userBlocks">
-                <div class="block" id="profilesBlock">
-                    <h3 class="block-title">Profiles</h3>
-                    <button onclick="loadProfiles()">View Profiles</button>
-                </div>
-                <div class="block" id="remindersBlock">
-                    <h3 class="block-title">Reminders</h3>
-                    <button onclick="loadReminders()">View Reminders</button>
-                </div>
-                <div class="block" id="petHealthProgressBlock">
-                    <h3 class="block-title">Pet Health Progress</h3>
-                    <button onclick="loadHealthProgress()">View Health Progress</button>
-                </div>
-                <div class="block" id="vaccinationTrackerBlock">
-                    <h3 class="block-title">Vaccination Tracker</h3>
-                    <button onclick="loadVaccinationTracker()">View Vaccinations</button>
-                </div>
-                <div class="block" id="settingsBlock">
-                    <h3 class="block-title">Settings</h3>
-                    <button onclick="loadSettings()">View Settings</button>
-                </div>
+
+            <!-- Content Blocks (Profiles, Reminders, etc.) -->
+            <div id="profilesContent" class="content-block hidden">
+                <h3>Profiles Section</h3>
+                <p>Manage your pet profiles here.</p>
+            </div>
+            <div id="remindersContent" class="content-block hidden">
+                <h3>Reminders Section</h3>
+                <p>Set your pet reminders here (e.g., vaccinations, vet visits).</p>
+            </div>
+            <div id="healthProgressContent" class="content-block hidden">
+                <h3>Health Progress</h3>
+                <p>Track your pet's health progress.</p>
+            </div>
+            <div id="vaccinationTrackerContent" class="content-block hidden">
+                <h3>Vaccination Tracker</h3>
+                <p>Keep track of your pet's vaccinations.</p>
+            </div>
+            <div id="settingsContent" class="content-block hidden">
+                <h3>Settings Section</h3>
+                <p>Manage your settings here.</p>
             </div>
         </div>
     </div>
 
-    <!-- Footer -->
     <footer class="bg-green-600 text-white p-4 text-center">
         <p>&copy; 2024 Pet Health Tracker. All rights reserved.</p>
     </footer>
 
+    <script src="script.js"></script>
 </body>
 </html>
