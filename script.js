@@ -1,90 +1,97 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const signupForm = document.getElementById('signupForm');
-    const loginForm = document.getElementById('loginForm');
-    const logoutButton = document.getElementById('logoutButton');
-    const showSignupButton = document.getElementById('showSignup');
-    const showLoginButton = document.getElementById('showLogin');
-    const dashboardLink = document.getElementById('dashboardLink');
-    const profilesLink = document.getElementById('profilesLink');
-    const remindersLink = document.getElementById('remindersLink');
-    const petHealthProgressLink = document.getElementById('petHealthProgressLink');
-    const settingsLink = document.getElementById('settingsLink');
+document.addEventListener("DOMContentLoaded", function() {
+    // Initialize DOM elements
     const mainContent = document.getElementById('mainContent');
+    const dashboardSection = document.getElementById('dashboard');
+    const profilesSection = document.getElementById('profiles');
+    const remindersSection = document.getElementById('reminders');
+    const healthTipsSection = document.getElementById('health-tips');
+    const settingsSection = document.getElementById('settings');
 
+    // Fetch user data from localStorage
     const user = JSON.parse(localStorage.getItem('user'));
 
     function loadUserData() {
-        const user = JSON.parse(localStorage.getItem('user'));
         if (user) {
-            document.getElementById('mainContent').innerHTML = `
-                <h2>Welcome back, ${user.username}!</h2>
-                <p><strong>Description:</strong> ${user.description || 'No description provided.'}</p>
-                <img src="${user.photo || 'https://via.placeholder.com/150'}" alt="User Photo" />
-            `;
-            showLoginButton.classList.add('hidden');
-            showSignupButton.classList.add('hidden');
-            logoutButton.classList.remove('hidden');
+            dashboardSection.classList.remove("hidden");
+            profilesSection.classList.remove("hidden");
+            remindersSection.classList.remove("hidden");
+            healthTipsSection.classList.remove("hidden");
+            settingsSection.classList.remove("hidden");
+
+            document.getElementById('userName').textContent = user.username;
+            document.getElementById('userDescription').textContent = user.description || 'Please update your description.';
+            document.getElementById('profilePic').src = user.photo || 'https://via.placeholder.com/150';
+        } else {
+            showLoginForm();
         }
     }
 
-    function updateUserData() {
-        const userData = {
-            username: document.getElementById('signupUsername').value || document.getElementById('loginUsername').value,
-            photo: document.getElementById('photoInput').files.length > 0 ? URL.createObjectURL(document.getElementById('photoInput').files[0]) : '',
-            description: document.getElementById('userDescription').value
-        };
-        localStorage.setItem('user', JSON.stringify(userData));
-        loadUserData();
-    }
+    // Toggle between login and signup form
+    document.getElementById('showSignup').addEventListener('click', () => {
+        document.getElementById('signupForm').classList.remove('hidden');
+        document.getElementById('loginForm').classList.add('hidden');
+        document.getElementById('showSignup').classList.add('hidden');
+        document.getElementById('showLogin').classList.remove('hidden');
+    });
+
+    document.getElementById('showLogin').addEventListener('click', () => {
+        document.getElementById('signupForm').classList.add('hidden');
+        document.getElementById('loginForm').classList.remove('hidden');
+        document.getElementById('showSignup').classList.remove('hidden');
+        document.getElementById('showLogin').classList.add('hidden');
+    });
 
     // Handle SignUp
-    signupForm.addEventListener('submit', (e) => {
+    document.getElementById('signupForm').addEventListener('submit', function(e) {
         e.preventDefault();
-        localStorage.setItem('user', JSON.stringify({
-            username: document.getElementById('signupUsername').value,
-            photo: '',
-            description: ''
-        }));
+        const username = document.getElementById('signupUsername').value;
+        const password = document.getElementById('signupPassword').value;
+        const newUser = { username, password, photo: '', description: '' };
+        localStorage.setItem('user', JSON.stringify(newUser));
         loadUserData();
     });
 
     // Handle Login
-    loginForm.addEventListener('submit', (e) => {
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
         e.preventDefault();
-        const userData = JSON.parse(localStorage.getItem('user'));
-        if (userData.username === document.getElementById('loginUsername').value) {
+        const username = document.getElementById('loginUsername').value;
+        const password = document.getElementById('loginPassword').value;
+        const savedUser = JSON.parse(localStorage.getItem('user'));
+        if (savedUser && savedUser.username === username && savedUser.password === password) {
             loadUserData();
         } else {
-            alert('Invalid login details');
+            alert("Invalid login credentials");
         }
     });
 
-    // Handle LogOut
-    logoutButton.addEventListener('click', () => {
+    // Logout User
+    document.getElementById('logoutButton').addEventListener('click', () => {
         localStorage.removeItem('user');
         location.reload();
     });
 
-    // Dashboard functionality
-    dashboardLink.addEventListener('click', () => {
-        mainContent.innerHTML = `<h2>Dashboard</h2><p>Welcome to your pet health dashboard.</p>`;
+    // Handle Profile Update (Add Pet)
+    document.getElementById('profileForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const petName = document.getElementById('petName').value;
+        const petAge = document.getElementById('petAge').value;
+        const petBreed = document.getElementById('petBreed').value;
+        const profileList = document.getElementById('profileList');
+        profileList.innerHTML += `
+            <div class="bg-white rounded-lg shadow-md p-4 mb-4">
+                <h3 class="text-lg font-bold">${petName}</h3>
+                <p>Age: ${petAge} years</p>
+                <p>Breed: ${petBreed}</p>
+            </div>
+        `;
     });
 
-    profilesLink.addEventListener('click', () => {
-        mainContent.innerHTML = `<h2>Profiles</h2><p>Manage your pet profiles here.</p>`;
+    // Dark Mode Toggle
+    document.getElementById('darkModeToggle').addEventListener('click', function() {
+        document.body.classList.toggle('bg-gray-900');
+        document.body.classList.toggle('text-white');
     });
 
-    remindersLink.addEventListener('click', () => {
-        mainContent.innerHTML = `<h2>Reminders</h2><p>Set reminders for your pets here.</p>`;
-    });
-
-    petHealthProgressLink.addEventListener('click', () => {
-        mainContent.innerHTML = `<h2>Pet Health Progress</h2><p>Track your pet's health progress.</p>`;
-    });
-
-    settingsLink.addEventListener('click', () => {
-        mainContent.innerHTML = `<h2>Settings</h2><p>Manage your pet health tracker settings here.</p>`;
-    });
-
+    // Initialize user data
     loadUserData();
 });
