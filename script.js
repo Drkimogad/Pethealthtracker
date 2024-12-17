@@ -10,6 +10,8 @@ const mainContent = document.getElementById("mainContent");
 const toggleForms = document.getElementById("toggleForms");
 const showSignup = document.getElementById("showSignup");
 const showLogin = document.getElementById("showLogin");
+const photoUpload = document.getElementById("photoUpload");
+const changePhotoButton = document.getElementById("changePhoto");
 
 // Function to update the UI based on the user's login state
 const updateUI = () => {
@@ -34,31 +36,60 @@ const loadSection = (sectionId) => {
                 <h2 class="font-bold text-xl mb-4">Welcome, <span id="userName">${loggedInUser.username}</span>!</h2>
                 <img src="${loggedInUser.photo || 'https://via.placeholder.com/150'}" alt="User Photo" class="w-24 h-24 rounded-full mb-4" />
                 <p id="userDescription">${loggedInUser.description || "Please update your description."}</p>
-                <button id="editPhoto" class="bg-blue-600 text-white p-2 rounded">Change Photo</button>
                 <button id="editDescription" class="bg-blue-600 text-white p-2 rounded mt-2">Edit Description</button>
+                <input type="file" id="photoUpload" class="hidden" accept="image/*" />
+                <button id="changePhoto" class="bg-blue-600 text-white p-2 rounded mt-4">Upload Photo</button>
             `;
 
-            // Event listeners for photo and description editing
-            document.getElementById("editPhoto").addEventListener("click", changePhoto);
+            // Event listeners for photo upload and description editing
+            document.getElementById("changePhoto").addEventListener("click", triggerFileUpload);
             document.getElementById("editDescription").addEventListener("click", changeDescription);
+
+            // Handle file input change
+            photoUpload.addEventListener("change", handleFileUpload);
         }
-    } else {
-        // Placeholder sections for other links
+    } else if (sectionId === "profiles") {
         mainContent.innerHTML = `
-            <h3 class="text-xl font-bold mb-4">${sectionId.toUpperCase()} Section</h3>
-            <p>Content for the ${sectionId} section will appear here.</p>
+            <h3 class="font-bold text-xl mb-4">Pet Profiles</h3>
+            <p>Manage your pet profiles here. Add, update, or remove profiles.</p>
+        `;
+    } else if (sectionId === "reminders") {
+        mainContent.innerHTML = `
+            <h3 class="font-bold text-xl mb-4">Reminders</h3>
+            <p>Set reminders for vaccinations, vet visits, etc.</p>
+        `;
+    } else if (sectionId === "health-tips") {
+        mainContent.innerHTML = `
+            <h3 class="font-bold text-xl mb-4">Health Tips</h3>
+            <p>Here are some useful health tips for your pet:</p>
+            <ul>
+                <li>Keep up with vaccinations.</li>
+                <li>Regular vet visits are important.</li>
+                <li>Maintain a healthy diet and exercise routine.</li>
+            </ul>
         `;
     }
 };
 
-// Change photo functionality
-const changePhoto = () => {
-    const newPhoto = prompt("Enter the URL of your new profile photo:");
-    if (newPhoto) {
-        loggedInUser.photo = newPhoto;
+// Function to handle file upload for user photo
+const handleFileUpload = () => {
+    const file = photoUpload.files[0];
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+        loggedInUser.photo = reader.result;
         localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
-        loadSection("dashboard");
+        loadSection("dashboard");  // Refresh dashboard with new photo
+    };
+
+    if (file) {
+        reader.readAsDataURL(file); // Convert image to data URL
     }
+};
+
+// Trigger file upload dialog
+const triggerFileUpload = () => {
+    photoUpload.click();  // Open file picker
 };
 
 // Change description functionality
