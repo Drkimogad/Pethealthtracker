@@ -1,21 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pet Health Tracker</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"/>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
 </head>
-
 <body class="bg-gray-100 font-roboto">
+
+    <!-- Header -->
     <header class="bg-green-600 text-white p-4 text-center">
         <h1 class="text-2xl font-bold">Pet Health Tracker</h1>
     </header>
+
+    <!-- User Section -->
     <div class="user-section bg-gray-200 p-4 text-center">
         <div id="toggleForms">
             <button id="showSignup" class="bg-blue-600 text-white p-2 rounded">Sign Up</button>
@@ -35,37 +37,56 @@
         </form>
         <button id="logoutButton" class="bg-red-600 text-white p-2 rounded hidden">Logout</button>
     </div>
+
+    <!-- Navigation Bar -->
     <nav class="bg-gray-800 text-white">
         <div class="container mx-auto flex justify-around p-4">
-            <a class="hover:bg-gray-700 p-2 rounded" href="#" id="dashboardLink">Dashboard</a>
-            <a class="hover:bg-gray-700 p-2 rounded" href="#" id="profilesLink">Profiles</a>
-            <a class="hover:bg-gray-700 p-2 rounded" href="#" id="remindersLink">Reminders</a>
-            <a class="hover:bg-gray-700 p-2 rounded" href="#" id="healthTipsLink">Health Tips</a>
+            <a class="hover:bg-gray-700 p-2 rounded" href="#dashboard" id="dashboardLink">Dashboard</a>
+            <a class="hover:bg-gray-700 p-2 rounded" href="#profiles" id="profilesLink">Profiles</a>
+            <a class="hover:bg-gray-700 p-2 rounded" href="#reminders" id="remindersLink">Reminders</a>
+            <a class="hover:bg-gray-700 p-2 rounded" href="#pet-health-progress" id="petHealthProgressLink">Pet Health Progress</a>
+            <a class="hover:bg-gray-700 p-2 rounded" href="#vaccination-tracker" id="vaccinationTrackerLink">Vaccination Tracker</a>
+            <a class="hover:bg-gray-700 p-2 rounded" href="#settings" id="settingsLink">Settings</a>
         </div>
     </nav>
+
+    <!-- Main Content -->
     <div class="container mx-auto p-4" id="mainContent">
-        <div id="dashboardContent">
-            <!-- Dashboard content will dynamically load based on user login -->
-            <div id="userWelcomeMessage">
-                <h2>Welcome, <span id="userName"></span></h2>
-                <img id="userPhoto" src="" alt="User Photo" class="w-24 h-24 rounded-full mb-4">
-                <p id="userDescription"></p>
-                <button id="editPhoto" class="bg-blue-600 text-white p-2 rounded mt-4">Change Photo</button>
-                <input type="file" id="photoInput" accept="image/*" class="hidden">
-                <button id="editDescription" class="bg-blue-600 text-white p-2 rounded mt-4">Edit Description</button>
-                <textarea id="descriptionInput" class="hidden p-2 w-full border rounded mt-4" placeholder="Enter your description"></textarea>
-                <button id="saveDescription" class="hidden bg-green-600 text-white p-2 rounded mt-4">Save Description</button>
+        <div id="userDetails" class="bg-gray-200 p-4 rounded-md shadow-md">
+            <div id="userPhoto" class="text-center mb-4">
+                <img id="profilePic" src="" alt="User Photo" class="w-32 h-32 rounded-full mx-auto mb-4">
             </div>
-            <div class="p-4 mt-4">
-                <button class="bg-gray-800 text-white p-2 rounded" id="profilesLinkBtn">Manage Pet Profiles</button>
-                <button class="bg-gray-800 text-white p-2 rounded ml-4" id="remindersLinkBtn">Set Reminders</button>
-                <button class="bg-gray-800 text-white p-2 rounded ml-4" id="healthTipsLinkBtn">Health Tips</button>
+            <h3 id="userName" class="text-xl font-bold text-center mb-2"></h3>
+            <p id="userDescription" class="text-center mb-4"></p>
+            <div id="userBlocks">
+                <div class="block" id="profilesBlock">
+                    <h3 class="block-title">Profiles</h3>
+                    <button onclick="loadProfiles()">View Profiles</button>
+                </div>
+                <div class="block" id="remindersBlock">
+                    <h3 class="block-title">Reminders</h3>
+                    <button onclick="loadReminders()">View Reminders</button>
+                </div>
+                <div class="block" id="petHealthProgressBlock">
+                    <h3 class="block-title">Pet Health Progress</h3>
+                    <button onclick="loadHealthProgress()">View Health Progress</button>
+                </div>
+                <div class="block" id="vaccinationTrackerBlock">
+                    <h3 class="block-title">Vaccination Tracker</h3>
+                    <button onclick="loadVaccinationTracker()">View Vaccinations</button>
+                </div>
+                <div class="block" id="settingsBlock">
+                    <h3 class="block-title">Settings</h3>
+                    <button onclick="loadSettings()">View Settings</button>
+                </div>
             </div>
         </div>
     </div>
+
+    <!-- Footer -->
     <footer class="bg-green-600 text-white p-4 text-center">
         <p>&copy; 2024 Pet Health Tracker. All rights reserved.</p>
     </footer>
-</body>
 
+</body>
 </html>
