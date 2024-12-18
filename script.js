@@ -1,12 +1,52 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Get the links and content area
+    const profileForm = document.getElementById("profileForm");
+    const profileList = document.getElementById("profileList");
+
+    const contentSection = document.getElementById('contentSection');
     const viewProfilesBtn = document.getElementById('viewProfilesBtn');
     const viewRemindersBtn = document.getElementById('viewRemindersBtn');
     const viewHealthTipsBtn = document.getElementById('viewHealthTipsBtn');
     const viewSettingsBtn = document.getElementById('viewSettingsBtn');
-    const contentSection = document.getElementById('contentSection');
 
-    // Function to show the corresponding content
+    // Load profiles from local storage
+    const loadProfiles = () => {
+        const profiles = JSON.parse(localStorage.getItem("profiles")) || [];
+        profileList.innerHTML = profiles
+            .map(
+                (profile, index) => `
+                <div class="profile-item">
+                    <h3>${profile.name} (${profile.age} years old)</h3>
+                    <p>Breed: ${profile.breed}</p>
+                    <button onclick="deleteProfile(${index})">Delete</button>
+                </div>
+            `
+            )
+            .join("");
+    };
+
+    // Add a new profile
+    profileForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const name = document.getElementById("petName").value;
+        const age = document.getElementById("petAge").value;
+        const breed = document.getElementById("petBreed").value;
+
+        const profiles = JSON.parse(localStorage.getItem("profiles")) || [];
+        profiles.push({ name, age, breed });
+        localStorage.setItem("profiles", JSON.stringify(profiles));
+
+        profileForm.reset();
+        loadProfiles();
+    });
+
+    // Delete a profile
+    window.deleteProfile = (index) => {
+        const profiles = JSON.parse(localStorage.getItem("profiles")) || [];
+        profiles.splice(index, 1);
+        localStorage.setItem("profiles", JSON.stringify(profiles));
+        loadProfiles();
+    };
+
     const showContent = (contentType) => {
         let contentHTML = '';
 
@@ -15,15 +55,22 @@ document.addEventListener("DOMContentLoaded", () => {
                 contentHTML = `
                     <h3 class="font-bold text-lg">Pet Profiles</h3>
                     <p>Here are your pet profiles. You can edit and manage them.</p>
-                    <!-- List of profiles goes here -->
+                    <form id="profileForm">
+                        <input type="text" id="petName" placeholder="Pet Name" required>
+                        <input type="number" id="petAge" placeholder="Age" required>
+                        <input type="text" id="petBreed" placeholder="Breed" required>
+                        <button type="submit">Add Profile</button>
+                    </form>
+                    <div id="profileList"></div>
                 `;
+                loadProfiles(); // Initial load
                 break;
             case 'reminders':
                 contentHTML = `
                     <h3 class="font-bold text-lg">Pet Care Reminders</h3>
                     <ul>
-                        <li>Buddy - Rabies Vaccine - Due: 2023-11-15</li>
-                        <li>Whiskers - Feline Leukemia - Due: 2023-12-01</li>
+                        <li>Buddy - Rabies Vaccine - Due: 2024-01-15</li>
+                        <li>Whiskers - Feline Leukemia - Due: 2024-02-01</li>
                     </ul>
                 `;
                 break;
@@ -39,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
             case 'settings':
                 contentHTML = `
                     <h3 class="font-bold text-lg">Settings</h3>
-                    <button id="darkModeToggle" class="bg-gray-800 text-white p-2 rounded">Toggle Dark Mode</button>
+                    <button id="darkModeToggle">Toggle Dark Mode</button>
                 `;
                 break;
             default:
@@ -50,16 +97,8 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     // Event listeners for the buttons to show content
-    viewProfilesBtn.addEventListener('click', () => {
-        showContent('profiles');
-    });
-    viewRemindersBtn.addEventListener('click', () => {
-        showContent('reminders');
-    });
-    viewHealthTipsBtn.addEventListener('click', () => {
-        showContent('healthTips');
-    });
-    viewSettingsBtn.addEventListener('click', () => {
-        showContent('settings');
-    });
+    viewProfilesBtn.addEventListener('click', () => showContent('profiles'));
+    viewRemindersBtn.addEventListener('click', () => showContent('reminders'));
+    viewHealthTipsBtn.addEventListener('click', () => showContent('healthTips'));
+    viewSettingsBtn.addEventListener('click', () => showContent('settings'));
 });
