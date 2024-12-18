@@ -34,9 +34,9 @@ body.dark {
     margin: auto;
 }
 
-/* Left Side (40% width) */
+/* Left Side (60% width) */
 .left-container {
-    flex: 0 0 40%;  /* 40% width */
+    flex: 0 0 60%;  /* 60% width */
     background-color: #000;
     color: #fff;
     padding: 30px;
@@ -62,7 +62,7 @@ body.dark {
     background-color: #ffcc33; /* Darker mustard on hover */
 }
 
-/* Right Side (60% width) */
+/* Right Side (40% width) */
 .right-container {
     flex: 1;
     background-color: #ff69b4;
@@ -146,4 +146,13 @@ footer {
     color: #fff;
     padding: 15px;
     font-size: 1em;
+}
+
+/* Content Sections - Initially hidden */
+.section {
+    display: none;
+}
+
+.section.active {
+    display: block;
 }
