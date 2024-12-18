@@ -1,104 +1,137 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const profileForm = document.getElementById("profileForm");
-    const profileList = document.getElementById("profileList");
+    const profilesBtn = document.getElementById('profilesBtn');
+    const remindersBtn = document.getElementById('remindersBtn');
+    const healthTipsBtn = document.getElementById('healthTipsBtn');
+    const settingsBtn = document.getElementById('settingsBtn');
+
+    const welcomeMessage = document.getElementById('welcomeMessage');
+    const authSection = document.getElementById('authSection');
+    const signupBtn = document.getElementById('signupBtn');
+    const loginBtn = document.getElementById('loginBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
 
     const contentSection = document.getElementById('contentSection');
-    const viewProfilesBtn = document.getElementById('viewProfilesBtn');
-    const viewRemindersBtn = document.getElementById('viewRemindersBtn');
-    const viewHealthTipsBtn = document.getElementById('viewHealthTipsBtn');
-    const viewSettingsBtn = document.getElementById('viewSettingsBtn');
+    const profilesSection = document.getElementById('profiles');
+    const remindersSection = document.getElementById('reminders');
+    const healthTipsSection = document.getElementById('healthTips');
+    const settingsSection = document.getElementById('settings');
+
+    const localStorageProfilesKey = 'petProfiles';
+    const localStorageRemindersKey = 'petReminders';
+    const localStorageHealthTipsKey = 'healthTips';
+    const localStorageDarkModeKey = 'darkMode';
+
+    let isLoggedIn = false;
+
+    const checkLoginStatus = () => {
+        const user = localStorage.getItem('user');
+        isLoggedIn = user !== null;
+        if (isLoggedIn) {
+            welcomeMessage.innerText = `Welcome, ${user}`;
+            authSection.classList.add('hidden');
+            logoutBtn.classList.remove('hidden');
+        } else {
+            welcomeMessage.innerText = `Welcome to Your Dashboard`;
+            authSection.classList.remove('hidden');
+            logoutBtn.classList.add('hidden');
+        }
+    };
+
+    // Handle Auth
+    signupBtn.addEventListener('click', () => {
+        const username = prompt("Enter a username to sign up:");
+        if (username) {
+            localStorage.setItem('user', username);
+            checkLoginStatus();
+        }
+    });
+
+    loginBtn.addEventListener('click', () => {
+        const username = prompt("Enter your username to login:");
+        const storedUser = localStorage.getItem('user');
+        if (username === storedUser) {
+            checkLoginStatus();
+        } else {
+            alert("Incorrect username!");
+        }
+    });
+
+    logoutBtn.addEventListener('click', () => {
+        localStorage.removeItem('user');
+        checkLoginStatus();
+    });
+
+    profilesBtn.addEventListener('click', () => {
+        showContent('profiles');
+    });
+
+    remindersBtn.addEventListener('click', () => {
+        showContent('reminders');
+    });
+
+    healthTipsBtn.addEventListener('click', () => {
+        showContent('healthTips');
+    });
+
+    settingsBtn.addEventListener('click', () => {
+        showContent('settings');
+    });
 
     // Load profiles from local storage
     const loadProfiles = () => {
-        const profiles = JSON.parse(localStorage.getItem("profiles")) || [];
-        profileList.innerHTML = profiles
-            .map(
-                (profile, index) => `
-                <div class="profile-item">
-                    <h3>${profile.name} (${profile.age} years old)</h3>
-                    <p>Breed: ${profile.breed}</p>
-                    <button onclick="deleteProfile(${index})">Delete</button>
-                </div>
-            `
-            )
-            .join("");
+        let profiles = JSON.parse(localStorage.getItem(localStorageProfilesKey)) || [];
+        // Display profiles dynamically
+        let profilesHTML = '';
+        profiles.forEach((profile, index) => {
+            profilesHTML += `<div>${profile.name} (${profile.breed}) <button onclick="editProfile(${index})">Edit</button> <button onclick="deleteProfile(${index})">Delete</button></div>`;
+        });
+        profilesSection.innerHTML = profilesHTML;
     };
 
-    // Add a new profile
-    profileForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const name = document.getElementById("petName").value;
-        const age = document.getElementById("petAge").value;
-        const breed = document.getElementById("petBreed").value;
-
-        const profiles = JSON.parse(localStorage.getItem("profiles")) || [];
-        profiles.push({ name, age, breed });
-        localStorage.setItem("profiles", JSON.stringify(profiles));
-
-        profileForm.reset();
-        loadProfiles();
-    });
-
-    // Delete a profile
-    window.deleteProfile = (index) => {
-        const profiles = JSON.parse(localStorage.getItem("profiles")) || [];
-        profiles.splice(index, 1);
-        localStorage.setItem("profiles", JSON.stringify(profiles));
-        loadProfiles();
+    // Load reminders from local storage
+    const loadReminders = () => {
+        let reminders = JSON.parse(localStorage.getItem(localStorageRemindersKey)) || [];
+        let remindersHTML = '';
+        reminders.forEach((reminder) => {
+            remindersHTML += `<div>${reminder.text} (Due: ${reminder.dueDate})</div>`;
+        });
+        remindersSection.innerHTML = remindersHTML;
     };
 
+    // Show specific content
     const showContent = (contentType) => {
-        let contentHTML = '';
-
         switch(contentType) {
             case 'profiles':
-                contentHTML = `
-                    <h3 class="font-bold text-lg">Pet Profiles</h3>
-                    <p>Here are your pet profiles. You can edit and manage them.</p>
-                    <form id="profileForm">
-                        <input type="text" id="petName" placeholder="Pet Name" required>
-                        <input type="number" id="petAge" placeholder="Age" required>
-                        <input type="text" id="petBreed" placeholder="Breed" required>
-                        <button type="submit">Add Profile</button>
-                    </form>
-                    <div id="profileList"></div>
-                `;
-                loadProfiles(); // Initial load
+                loadProfiles();
                 break;
             case 'reminders':
-                contentHTML = `
-                    <h3 class="font-bold text-lg">Pet Care Reminders</h3>
-                    <ul>
-                        <li>Buddy - Rabies Vaccine - Due: 2024-01-15</li>
-                        <li>Whiskers - Feline Leukemia - Due: 2024-02-01</li>
-                    </ul>
-                `;
+                loadReminders();
                 break;
             case 'healthTips':
-                contentHTML = `
-                    <h3 class="font-bold text-lg">Health Tips</h3>
-                    <ul>
-                        <li>Ensure a balanced diet for your pets.</li>
-                        <li>Regular exercise is essential for a healthy life.</li>
-                    </ul>
-                `;
+                loadHealthTips();
                 break;
             case 'settings':
-                contentHTML = `
-                    <h3 class="font-bold text-lg">Settings</h3>
-                    <button id="darkModeToggle">Toggle Dark Mode</button>
-                `;
+                toggleDarkMode();
                 break;
-            default:
-                contentHTML = `<p>Select a section to view details.</p>`;
         }
-
-        contentSection.innerHTML = contentHTML;
     };
 
-    // Event listeners for the buttons to show content
-    viewProfilesBtn.addEventListener('click', () => showContent('profiles'));
-    viewRemindersBtn.addEventListener('click', () => showContent('reminders'));
-    viewHealthTipsBtn.addEventListener('click', () => showContent('healthTips'));
-    viewSettingsBtn.addEventListener('click', () => showContent('settings'));
+    // Handle Health Tips
+    const loadHealthTips = () => {
+        let tips = JSON.parse(localStorage.getItem(localStorageHealthTipsKey)) || [];
+        let tipsHTML = '<ul>';
+        tips.forEach(tip => {
+            tipsHTML += `<li>${tip}</li>`;
+        });
+        tipsHTML += '</ul>';
+        healthTipsSection.innerHTML = tipsHTML;
+    };
+
+    // Handle Dark Mode
+    const toggleDarkMode = () => {
+        const isDarkMode = localStorage.getItem(localStorageDarkModeKey) === 'true';
+        document.body.classList.toggle('dark', isDarkMode);
+    };
+
+    checkLoginStatus();  // Check login status on page load
 });
