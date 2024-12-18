@@ -25,18 +25,33 @@
     <!-- Main Content -->
     <div class="container mx-auto p-4" id="mainContent">
         <!-- Dashboard Section -->
-        <section id="dashboard" class="hidden">
-            <h2 class="text-xl font-bold mb-4">Welcome to your Pet Health Tracker</h2>
-            <div class="bg-white rounded-lg shadow-md p-4 flex items-center">
-                <img alt="User Profile" class="rounded-full w-24 h-24 mr-4" src="https://via.placeholder.com/150" />
-                <div>
-                    <h3 id="userName" class="text-lg font-bold">User Name</h3>
-                    <p id="userDescription">Description here...</p>
-                    <button id="editDescription" class="bg-blue-600 text-white p-2 rounded mt-4">Edit Description</button>
-                    <input type="file" id="uploadPhoto" class="hidden"/>
-                    <button id="changePhotoBtn" class="bg-green-600 text-white p-2 rounded mt-4">Change Photo</button>
-                </div>
-            </div>
+<section id="dashboard" class="hidden">
+    <h2 class="text-xl font-bold mb-4">Welcome to your Pet Health Tracker</h2>
+    <div class="bg-white rounded-lg shadow-md p-4 flex items-center">
+        <img alt="User Profile" class="rounded-full w-24 h-24 mr-4" src="https://via.placeholder.com/150" />
+        <div>
+            <h3 id="userName" class="text-lg font-bold">User Name</h3>
+            <p id="userDescription">Description here...</p>
+            <button id="editDescription" class="bg-blue-600 text-white p-2 rounded mt-4">Edit Description</button>
+            <input type="file" id="uploadPhoto" class="hidden"/>
+            <button id="changePhotoBtn" class="bg-green-600 text-white p-2 rounded mt-4">Change Photo</button>
+        </div>
+    </div>
+    
+    <!-- Links to Navigate to Sections -->
+    <div class="mt-4">
+        <button id="viewProfilesBtn" class="bg-blue-600 text-white p-2 rounded mt-4">View Pet Profiles</button>
+        <button id="viewRemindersBtn" class="bg-blue-600 text-white p-2 rounded mt-4">View Reminders</button>
+        <button id="viewHealthTipsBtn" class="bg-blue-600 text-white p-2 rounded mt-4">View Health Tips</button>
+        <button id="viewSettingsBtn" class="bg-blue-600 text-white p-2 rounded mt-4">View Settings</button>
+    </div>
+
+    <!-- The content will appear here when links are clicked -->
+    <div id="contentSection" class="mt-6">
+        <!-- Placeholder for dynamic content -->
+    </div>
+</section>
+
         </section>
 
         <!-- Profiles Section -->
