@@ -140,3 +140,64 @@ footer {
     padding: 15px;
     font-size: 1em; /* Increased footer font size */
 }
+
+/* Content Section */
+#contentSection {
+    text-align: left;
+    width: 100%;
+    padding: 20px;
+    font-size: 1.2em;
+    color: #fff;
+}
+
+#contentSection h3 {
+    margin-bottom: 20px;
+    font-size: 1.8em;
+    color: #fff;
+}
+
+#contentSection button {
+    background-color: #ffd700;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+#contentSection button:hover {
+    background-color: #ffcc33;
+}
+
+/* Profile List */
+#profileList .profile-item {
+    background-color: #f1f1f1;
+    margin: 15px 0;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#profileList .profile-item h3 {
+    margin-bottom: 10px;
+    font-size: 1.4em;
+}
+
+#profileList .profile-item p {
+    font-size: 1.1em;
+    margin: 10px 0;
+}
+
+#profileList .profile-item button {
+    background-color: #e74c3c;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#profileList .profile-item button:hover {
+    background-color: #c0392b;
+}
+
