@@ -15,30 +15,18 @@
     </header>
 
     <div class="main-container">
-        <!-- Left Container with Editable Blocks -->
+        <!-- Left Container with Clickable Blocks Initially -->
         <div class="left-container">
-            <div class="block" id="profilesBlock" contenteditable="true">
-                <h3>Pet Profiles</h3>
-                <p>Edit the profiles of your pets here.</p>
-            </div>
-            <div class="block" id="remindersBlock" contenteditable="true">
-                <h3>Pet Care Reminders</h3>
-                <p>Set reminders for pet care activities.</p>
-            </div>
-            <div class="block" id="healthTipsBlock" contenteditable="true">
-                <h3>Health Tips</h3>
-                <p>Find useful health tips for your pets.</p>
-            </div>
-            <div class="block" id="settingsBlock" contenteditable="true">
-                <h3>Settings</h3>
-                <p>Adjust your account settings and preferences.</p>
-            </div>
+            <div class="block" id="profilesBlock" onclick="showContent('profiles')">Pet Profiles</div>
+            <div class="block" id="remindersBlock" onclick="showContent('reminders')">Pet Care Reminders</div>
+            <div class="block" id="healthTipsBlock" onclick="showContent('tips')">Health Tips</div>
+            <div class="block" id="settingsBlock" onclick="showContent('settings')">Settings</div>
         </div>
 
         <!-- Right Container with Hero Section and Authentication Buttons -->
         <div class="right-container">
             <div class="hero-banner">
-                <h1 id="welcomeMessage" class="text-4xl font-bold text-white">Welcome to Your Dashboard</h1>
+                <h1 id="welcomeMessage">Welcome to Your Dashboard</h1>
                 <div class="image-container">
                     <img src="https://raw.githubusercontent.com/Drkimogad/Pethealthtracker/main/Cat.jpg" alt="Hero Image">
                 </div>
