@@ -4,38 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pet Health Tracker</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-    <!-- Main Container -->
+<body class="bg-gray-100 font-roboto">
+    <header class="header bg-teal-600 text-white p-4 text-center">
+        <h1 class="text-2xl font-bold">Pet Health Tracker</h1>
+    </header>
+
     <div class="main-container">
-        <!-- Left Container (Editable Blocks) -->
+        <!-- Left Container with Editable Blocks -->
         <div class="left-container">
-            <!-- Editable Blocks -->
-            <div class="editable-block" id="petProfiles">Pet Profiles</div>
-            <div class="editable-block" id="reminders">Reminders</div>
-            <div class="editable-block" id="healthTips">Health Tips</div>
-            <div class="editable-block" id="settings">Settings</div>
+            <div class="block" id="profilesBlock" contenteditable="true">Pet Profiles</div>
+            <div class="block" id="remindersBlock" contenteditable="true">Pet Care Reminders</div>
+            <div class="block" id="healthTipsBlock" contenteditable="true">Health Tips</div>
+            <div class="block" id="settingsBlock" contenteditable="true">Settings</div>
         </div>
 
-        <!-- Right Container (Hero Section & Authentication) -->
+        <!-- Right Container with Hero Section and Authentication Buttons -->
         <div class="right-container">
-            <!-- Hero Banner -->
             <div class="hero-banner">
-                <h1>Welcome to Your Dashboard</h1>
+                <h1 id="welcomeMessage" class="text-4xl font-bold text-white">Welcome to Your Dashboard</h1>
             </div>
-            <!-- Hero Image -->
-            <div class="hero-image"></div>
-            <!-- Authentication Buttons -->
-            <div class="auth-section">
-                <button class="auth-btn" id="signupBtn">Sign Up</button>
-                <button class="auth-btn" id="loginBtn">Login</button>
-                <button class="auth-btn hidden" id="logoutBtn">Logout</button>
+            <div class="hero-image">
+                <img src="https://raw.githubusercontent.com/Drkimogad/Pethealthtracker/main/premium_photo-1664303468933-947e1c9f38eb.jpeg" alt="Hero Image">
+            </div>
+            <div id="authSection" class="auth-section">
+                <button id="signupBtn" class="auth-btn">Sign Up</button>
+                <button id="loginBtn" class="auth-btn">Login</button>
+                <button id="logoutBtn" class="auth-btn hidden">Logout</button>
             </div>
         </div>
     </div>
+
+    <footer class="bg-teal-600 text-white p-4 text-center">
+        <p>&copy; 2024 Pet Health Tracker. All rights reserved.</p>
+    </footer>
 
     <script src="script.js"></script>
 </body>
