@@ -4,42 +4,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pet Health Tracker</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"/>
-    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body class="bg-gray-100 font-roboto">
-    <header class="header bg-teal-600 text-white p-4 text-center">
-        <h1 class="text-2xl font-bold">Pet Health Tracker</h1>
+<body>
+    <header>
+        <div class="logo">
+            <h1>Pet Health Tracker</h1>
+        </div>
     </header>
 
-    <div class="main-container flex flex-wrap">
+    <div class="main-container">
         <!-- Left Container with Editable Blocks -->
-        <div class="left-container w-full md:w-1/3 p-4">
-            <div class="block p-4 mb-4 bg-white shadow rounded" id="profilesBlock" contenteditable="true">Pet Profiles</div>
-            <div class="block p-4 mb-4 bg-white shadow rounded" id="remindersBlock" contenteditable="true">Pet Care Reminders</div>
-            <div class="block p-4 mb-4 bg-white shadow rounded" id="healthTipsBlock" contenteditable="true">Health Tips</div>
-            <div class="block p-4 mb-4 bg-white shadow rounded" id="settingsBlock" contenteditable="true">Settings</div>
+        <div class="left-container">
+            <div class="block" id="profilesBlock" contenteditable="true">
+                <h3>Pet Profiles</h3>
+                <p>Edit the profiles of your pets here.</p>
+            </div>
+            <div class="block" id="remindersBlock" contenteditable="true">
+                <h3>Pet Care Reminders</h3>
+                <p>Set reminders for pet care activities.</p>
+            </div>
+            <div class="block" id="healthTipsBlock" contenteditable="true">
+                <h3>Health Tips</h3>
+                <p>Find useful health tips for your pets.</p>
+            </div>
+            <div class="block" id="settingsBlock" contenteditable="true">
+                <h3>Settings</h3>
+                <p>Adjust your account settings and preferences.</p>
+            </div>
         </div>
 
         <!-- Right Container with Hero Section and Authentication Buttons -->
-        <div class="right-container w-full md:w-2/3 p-4 flex flex-col items-center">
-            <div class="hero-banner bg-teal-600 text-white p-8 rounded w-full text-center mb-4">
-                <h1 id="welcomeMessage" class="text-4xl font-bold">Welcome to Your Dashboard</h1>
+        <div class="right-container">
+            <div class="hero-banner">
+                <h1 id="welcomeMessage" class="text-4xl font-bold text-white">Welcome to Your Dashboard</h1>
+                <div class="image-container">
+                    <img src="https://raw.githubusercontent.com/Drkimogad/Pethealthtracker/main/Cat.jpg" alt="Hero Image">
+                </div>
             </div>
-            <div class="hero-image w-full mb-4">
-                <img src="https://raw.githubusercontent.com/Drkimogad/Pethealthtracker/main/Cat.jpg" alt="Hero Image" class="rounded w-full">
-            </div>
-            <div id="authSection" class="auth-section w-full flex justify-center space-x-4">
-                <button id="signupBtn" class="auth-btn bg-teal-500 text-white py-2 px-4 rounded">Sign Up</button>
-                <button id="loginBtn" class="auth-btn bg-teal-500 text-white py-2 px-4 rounded">Login</button>
-                <button id="logoutBtn" class="auth-btn bg-teal-500 text-white py-2 px-4 rounded hidden">Logout</button>
+            <div id="authSection" class="auth-section">
+                <button id="signupBtn" class="auth-btn">Sign Up</button>
+                <button id="loginBtn" class="auth-btn">Login</button>
+                <button id="logoutBtn" class="auth-btn hidden">Logout</button>
             </div>
         </div>
     </div>
 
-    <footer class="bg-teal-600 text-white p-4 text-center">
+    <footer>
         <p>&copy; 2024 Pet Health Tracker. All rights reserved.</p>
     </footer>
 
