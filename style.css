@@ -3,15 +3,31 @@ body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
     color: #333;
+    height: 100vh;
+    background: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.hero-image {
+    background-image: url('https://raw.githubusercontent.com/Drkimogad/Pethealthtracker/main/Cat.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 header {
-    background-color: #4CAF50;
-    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     padding: 1rem;
-    text-align: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
 }
 
 header .logo h1 {
@@ -19,54 +35,9 @@ header .logo h1 {
     font-size: 2rem;
 }
 
-.main-container {
-    display: flex;
-    flex-wrap: wrap;
-    padding: 1rem;
-}
-
-.left-container, .right-container {
-    flex: 1;
-    padding: 1rem;
-}
-
-.block {
-    background-color: white;
-    margin-bottom: 2rem;
-    padding: 1rem;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-}
-
-.block h3 {
-    margin-top: 0;
-}
-
-.hero-banner {
-    text-align: center;
-    background-color: #e0f7fa;
-    padding: 2rem;
-    border-radius: 5px;
-}
-
-#hero-title {
-    margin-top: 0;
-    font-size: 2.5rem;
-}
-
-#hero-description {
-    font-size: 1.2rem;
-}
-
-.image-container img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 5px;
-}
-
 .auth-section {
-    margin-top: 1rem;
+    display: flex;
+    gap: 1rem;
 }
 
 .auth-btn {
@@ -76,7 +47,6 @@ header .logo h1 {
     border-radius: 5px;
     text-decoration: none;
     font-weight: bold;
-    margin-top: 1rem;
     cursor: pointer;
 }
 
@@ -84,29 +54,44 @@ header .logo h1 {
     display: none;
 }
 
+.main-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding: 1rem;
+}
+
+.content-blocks {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+}
+
+.block {
+    background-color: white;
+    padding: 1rem;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
 footer {
     background-color: #333;
     color: white;
     text-align: center;
     padding: 1rem;
-    margin-top: 2rem;
 }
 
 /* Responsive styles */
 @media (max-width: 768px) {
-    .main-container {
-        flex-direction: column;
-    }
-
     header .logo h1 {
         font-size: 1.5rem;
     }
 
-    #hero-title {
-        font-size: 2rem;
-    }
-
-    #hero-description {
-        font-size: 1rem;
+    .block {
+        font-size: 0.9rem;
     }
 }
