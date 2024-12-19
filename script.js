@@ -1,40 +1,55 @@
-// Get all button elements
-const profilesBtn = document.getElementById('profilesBtn');
-const remindersBtn = document.getElementById('remindersBtn');
-const healthTipsBtn = document.getElementById('healthTipsBtn');
-const settingsBtn = document.getElementById('settingsBtn');
+// Handle toggle for authentication buttons (Sign Up, Login, Logout)
+const signupBtn = document.getElementById('signupBtn');
+const loginBtn = document.getElementById('loginBtn');
+const logoutBtn = document.getElementById('logoutBtn');
 
-// Get all content sections
-const profileSection = document.getElementById('profilesSection');
-const remindersSection = document.getElementById('remindersSection');
-const healthTipsSection = document.getElementById('healthTipsSection');
-const settingsSection = document.getElementById('settingsSection');
+// Track user authentication status
+let isAuthenticated = false;
 
-// Hide all sections initially
-const hideAllSections = () => {
-    profileSection.classList.remove('active');
-    remindersSection.classList.remove('active');
-    healthTipsSection.classList.remove('active');
-    settingsSection.classList.remove('active');
-};
+// Toggle between Sign Up/Login and Logout buttons
+function toggleAuthButtons() {
+    if (isAuthenticated) {
+        loginBtn.classList.add('hidden');
+        signupBtn.classList.add('hidden');
+        logoutBtn.classList.remove('hidden');
+    } else {
+        loginBtn.classList.remove('hidden');
+        signupBtn.classList.remove('hidden');
+        logoutBtn.classList.add('hidden');
+    }
+}
 
-// Add event listeners for buttons
-profilesBtn.addEventListener('click', () => {
-    hideAllSections();
-    profileSection.classList.add('active');
+// Authentication button event listeners
+signupBtn.addEventListener('click', () => {
+    isAuthenticated = true; // Simulate sign up
+    toggleAuthButtons();
+    alert("Signed up successfully!");
 });
 
-remindersBtn.addEventListener('click', () => {
-    hideAllSections();
-    remindersSection.classList.add('active');
+loginBtn.addEventListener('click', () => {
+    isAuthenticated = true; // Simulate login
+    toggleAuthButtons();
+    alert("Logged in successfully!");
 });
 
-healthTipsBtn.addEventListener('click', () => {
-    hideAllSections();
-    healthTipsSection.classList.add('active');
+logoutBtn.addEventListener('click', () => {
+    isAuthenticated = false; // Simulate logout
+    toggleAuthButtons();
+    alert("Logged out successfully!");
 });
 
-settingsBtn.addEventListener('click', () => {
-    hideAllSections();
-    settingsSection.classList.add('active');
+// Editable blocks functionality
+const editableBlocks = document.querySelectorAll('.editable-block');
+
+// Make each block editable when clicked
+editableBlocks.forEach(block => {
+    block.addEventListener('click', () => {
+        let currentContent = block.innerHTML;
+        let newContent = prompt("Edit this block:", currentContent);
+        
+        // If the content is changed, update the block
+        if (newContent !== null && newContent !== currentContent) {
+            block.innerHTML = newContent;
+        }
+    });
 });
