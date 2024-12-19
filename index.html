@@ -6,14 +6,22 @@
     <title>Pet Health Tracker</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
-    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <!-- Main Container -->
     <div class="main-container">
-        <!-- Left Container -->
+        <!-- Left Container (Editable Blocks) -->
         <div class="left-container">
+            <!-- Editable Blocks -->
+            <div class="editable-block" id="petProfiles">Pet Profiles</div>
+            <div class="editable-block" id="reminders">Reminders</div>
+            <div class="editable-block" id="healthTips">Health Tips</div>
+            <div class="editable-block" id="settings">Settings</div>
+        </div>
+
+        <!-- Right Container (Hero Section & Authentication) -->
+        <div class="right-container">
             <!-- Hero Banner -->
             <div class="hero-banner">
                 <h1>Welcome to Your Dashboard</h1>
@@ -25,15 +33,6 @@
                 <button class="auth-btn" id="signupBtn">Sign Up</button>
                 <button class="auth-btn" id="loginBtn">Login</button>
             </div>
-        </div>
-
-        <!-- Right Container -->
-        <div class="right-container">
-            <!-- Editable Blocks -->
-            <div class="editable-block" id="petProfiles">Pet Profiles</div>
-            <div class="editable-block" id="reminders">Reminders</div>
-            <div class="editable-block" id="healthTips">Health Tips</div>
-            <div class="editable-block" id="settings">Settings</div>
         </div>
     </div>
 
