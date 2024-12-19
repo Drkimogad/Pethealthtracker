@@ -8,33 +8,24 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <div class="logo">
-            <h1>Pet Health Tracker</h1>
-        </div>
-    </header>
-
-    <div class="main-container">
-        <!-- Left Container with Clickable Blocks Initially -->
-        <div class="left-container">
-            <div class="block" id="profilesBlock" onclick="showContent('profiles')">Pet Profiles</div>
-            <div class="block" id="remindersBlock" onclick="showContent('reminders')">Pet Care Reminders</div>
-            <div class="block" id="healthTipsBlock" onclick="showContent('tips')">Health Tips</div>
-            <div class="block" id="settingsBlock" onclick="showContent('settings')">Settings</div>
-        </div>
-
-        <!-- Right Container with Hero Section and Authentication Buttons -->
-        <div class="right-container">
-            <div class="hero-banner">
-                <h1 id="welcomeMessage">Welcome to Your Dashboard</h1>
-                <div class="image-container">
-                    <img src="https://raw.githubusercontent.com/Drkimogad/Pethealthtracker/main/Cat.jpg" alt="Hero Image">
-                </div>
+    <div class="hero-image">
+        <header>
+            <div class="logo">
+                <h1>Pet Health Tracker</h1>
             </div>
             <div id="authSection" class="auth-section">
                 <button id="signupBtn" class="auth-btn">Sign Up</button>
                 <button id="loginBtn" class="auth-btn">Login</button>
                 <button id="logoutBtn" class="auth-btn hidden">Logout</button>
+            </div>
+        </header>
+
+        <div class="main-container">
+            <div class="content-blocks">
+                <div class="block" id="profilesBlock">Pet Profiles</div>
+                <div class="block" id="remindersBlock">Pet Care Reminders</div>
+                <div class="block" id="healthTipsBlock">Health Tips</div>
+                <div class="block" id="settingsBlock">Settings</div>
             </div>
         </div>
     </div>
