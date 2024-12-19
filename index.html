@@ -3,36 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pet Health Tracker - Dashboard</title>
+    <title>Pet Health Tracker</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"/>
-    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <div class="logo">
-            <h1>Pet Health Tracker</h1>
-        </div>
-        <div id="authSection" class="auth-section">
-            <button id="logoutBtn" class="auth-btn">Logout</button>
-        </div>
-    </header>
+    <div class="hero-image">
+        <header>
+            <div class="logo">
+                <h1>Pet Health Tracker</h1>
+            </div>
+            <div id="authSection" class="auth-section">
+                <button id="signupBtn" class="auth-btn">Sign Up</button>
+                <button id="loginBtn" class="auth-btn">Login</button>
+                <button id="logoutBtn" class="auth-btn hidden">Logout</button>
+            </div>
+        </header>
 
-    <div class="main-container">
-        <!-- Left Container with Clickable Blocks -->
-        <div class="left-container">
-            <div class="block" id="profilesBlock" onclick="showContent('profiles')">Pet Profiles</div>
-            <div class="block" id="remindersBlock" onclick="showContent('reminders')">Pet Care Reminders</div>
-            <div class="block" id="healthTipsBlock" onclick="showContent('tips')">Health Tips</div>
-            <div class="block" id="settingsBlock" onclick="showContent('settings')">Settings</div>
-        </div>
-
-        <!-- Right Container with User Information -->
-        <div class="right-container">
-            <div class="user-info">
-                <img src="https://raw.githubusercontent.com/Drkimogad/Pethealthtracker/main/Cat.jpg" alt="User Image" class="user-image">
-                <div class="user-description">
-                    <p>This is a short description or quote.</p>
-                </div>
+        <div class="main-container">
+            <div class="content-blocks">
+                <div class="block" id="profilesBlock">Pet Profiles</div>
+                <div class="block" id="remindersBlock">Pet Care Reminders</div>
+                <div class="block" id="healthTipsBlock">Health Tips</div>
+                <div class="block" id="settingsBlock">Settings</div>
             </div>
         </div>
     </div>
@@ -41,6 +34,6 @@
         <p>&copy; 2024 Pet Health Tracker. All rights reserved.</p>
     </footer>
 
-    <script src="dashboard.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
