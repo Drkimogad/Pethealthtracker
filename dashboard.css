@@ -56,6 +56,23 @@ header .logo h1 {
     border-radius: 5px;
 }
 
+.customize-btn {
+    margin-top: 1rem;
+    background-color: #4CAF50;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.user-description {
+    margin-top: 1rem;
+    background-color: white;
+    padding: 1rem;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 footer {
     background-color: #333;
     color: white;
