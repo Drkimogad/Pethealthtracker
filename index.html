@@ -4,65 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pet Health Tracker</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body class="bg-gray-100 font-roboto">
-    <header class="header bg-teal-600 text-white p-4 text-center">
-        <h1 class="text-2xl font-bold">Pet Health Tracker</h1>
-    </header>
-
+<body>
+    <!-- Main Container -->
     <div class="main-container">
-        <!-- Left Container with Buttons -->
+        <!-- Left Container -->
         <div class="left-container">
-            <button class="block" id="profilesBtn">Pet Profiles</button>
-            <button class="block" id="remindersBtn">Pet Care Reminders</button>
-            <button class="block" id="healthTipsBtn">Health Tips</button>
-            <button class="block" id="settingsBtn">Settings</button>
+            <!-- Hero Banner -->
+            <div class="hero-banner">
+                <h1>Welcome to Your Dashboard</h1>
+            </div>
+            <!-- Hero Image -->
+            <div class="hero-image"></div>
+            <!-- Authentication Buttons -->
+            <div class="auth-section">
+                <button class="auth-btn" id="signupBtn">Sign Up</button>
+                <button class="auth-btn" id="loginBtn">Login</button>
+            </div>
         </div>
 
-        <!-- Right Container with Admin Panel -->
+        <!-- Right Container -->
         <div class="right-container">
-            <div class="hero-banner">
-                <h1 id="welcomeMessage" class="text-4xl font-bold text-white">Welcome to Your Dashboard</h1>
-                <img src="https://via.placeholder.com/500x300" alt="Admin Banner" class="admin-banner">
-            </div>
-
-            <!-- Authentication Section -->
-            <div id="authSection" class="auth-section">
-                <button id="signupBtn" class="auth-btn">Sign Up</button>
-                <button id="loginBtn" class="auth-btn">Login</button>
-                <button id="logoutBtn" class="auth-btn hidden">Logout</button>
-            </div>
-
-            <!-- Content Sections -->
-            <div id="profilesSection" class="section">
-                <h2>Pet Profiles Content</h2>
-                <p>Content for pet profiles goes here.</p>
-            </div>
-
-            <div id="remindersSection" class="section">
-                <h2>Pet Care Reminders</h2>
-                <p>Content for pet care reminders goes here.</p>
-            </div>
-
-            <div id="healthTipsSection" class="section">
-                <h2>Health Tips</h2>
-                <p>Content for health tips goes here.</p>
-            </div>
-
-            <div id="settingsSection" class="section">
-                <h2>Settings</h2>
-                <p>Settings content goes here.</p>
-            </div>
+            <!-- Editable Blocks -->
+            <div class="editable-block" id="petProfiles">Pet Profiles</div>
+            <div class="editable-block" id="reminders">Reminders</div>
+            <div class="editable-block" id="healthTips">Health Tips</div>
+            <div class="editable-block" id="settings">Settings</div>
         </div>
     </div>
-
-    <footer class="bg-teal-600 text-white p-4 text-center">
-        <p>&copy; 2024 Pet Health Tracker. All rights reserved.</p>
-    </footer>
 
     <script src="script.js"></script>
 </body>
